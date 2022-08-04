@@ -6,10 +6,9 @@ import 'package:real_state/features/feature_chat/presntation/view/chat_screen.da
 import 'package:real_state/features/feature_home/presntation/widget/card_camera.dart';
 import 'package:real_state/features/feature_home/presntation/widget/card_more_details.dart';
 import 'package:real_state/features/feature_home/presntation/widget/card_details.dart';
-import 'package:real_state/features/feature_home/presntation/widget/item_row_sort.dart';
 import 'package:real_state/features/feature_place_details/presntation/view/place_details.dart';
-import 'package:real_state/features/feature_search_property/presntation/view/search_property.dart';
 import 'package:real_state/features/features_filter/presntation/view/filter_screen.dart';
+import 'package:real_state/features/layout.dart';
 import 'package:real_state/features/widget/custome_btn.dart';
 import 'package:real_state/features/widget/custome_text.dart';
 import 'package:real_state/features/widget/text_filed_search.dart';
@@ -25,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController? searchQuery;
   bool showSortList = false;
   int _groupValue = -1;
+  var currentIndex=0;
 
   var listImages = [
     'assets/images/place1.png',
@@ -50,394 +50,263 @@ class _HomeScreenState extends State<HomeScreen> {
     searchQuery = TextEditingController();
     super.initState();
   }
-
+TextEditingController textEditingController= TextEditingController();
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
       designSize: Size(SCREEN_WIDTH, SCREEN_HIGHT),
     );
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 5.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushAndRemoveUntil(context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SearchProperty()), (route) => false);
-                          },
-                          child: Container(
-                            height: 50.h,
-                            alignment: Alignment.topCenter,
-                            child: Image.asset(
-                              'assets/images/back.png',
-                              width: 30.w,
-                              height: 30.h,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 15.w),
-                        Image.asset(
-                          'assets/images/notifcation.png',
-                          width: 30.w,
-                          height: 30.h,
-                        ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/logoApp.png',
-                          width: 80.w,
-                          height: 80.h,
-                        ),
-                        Spacer(),
-                        Image.asset(
-                          'assets/images/menu.png',
-                          width: 30.w,
-                          height: 30.h,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFiledSearch(
-                            searchQuery: searchQuery!,
-                            imageSearch: 'assets/images/search.png',
-                            widthImageSearch: 35,
-                            heightImageSearch: 35,
-                            pressClose: () {
-                              setState(() {
-                                searchQuery!.clear();
-                              });
-                            },
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        FilterScreen()));
-                          },
-                          icon: Image.asset(
-                            'assets/images/filter1.png',
-                            width: 35.w,
-                            height: 35.h,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 25.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomeText(
-                          title: '40+ Places found to buy',
-                          color: Colors.black.withOpacity(0.7),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-
-                        /*DropdownButton(
-                          alignment: Alignment.bottomRight,
-                          underline: SizedBox(),
-                          icon: SizedBox(),
-                          hint: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/sort.png',
-                                width: 15.w,
-                                height: 15.h,
-                              ),
-                              SizedBox(width: 2.w),
-                              CustomeText(
-                                title: 'Sort',
-                                color: Colors.black.withOpacity(0.4),
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
-                          value: dropDownValue,
-                          onChanged: (newVal) {
+    return ScreenLayout(
+      context,
+      ScreenWidget: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 15.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TextFiledSearch(
+                          searchQuery: searchQuery!,
+                          imageSearch: 'assets/images/search.png',
+                          widthImageSearch: 35,
+                          heightImageSearch: 35,
+                          pressClose: () {
                             setState(() {
-                              // dropDownValue = newVal;
+                              searchQuery!.clear();
                             });
                           },
-                          items:listFilter.map<DropdownMenuItem<String>>((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              enabled: true,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                      width: 30.w,
-                                      height: 30.h,
-                                      child: Checkbox(
-                                        value: false,
-                                        onChanged: (value) {},
-                                      )),
-                                  SizedBox(width: 5.w),
-                                  CustomeText(
-                                    title: value,
-                                    fontSize: 14.sp,
-                                    color: Colors.grey.shade700,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                          /*[
-                            DropdownMenuItem(
-                              value: 0,
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                      width: 30.w,
-                                      height: 30.h,
-                                      child: Checkbox(
-                                        value: false,
-                                        onChanged: (value) {},
-                                      )),
-                                  SizedBox(width: 5.w),
-                                  CustomeText(
-                                    title: 'NEWEST',
-                                    fontSize: 14.sp,
-                                    color: Colors.grey.shade700,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            DropdownMenuItem(
-                              value: 1,
-                              child: Text('Red'),
-                            ),
-                            DropdownMenuItem(
-                              value: 2,
-                              child: Text('Blue'),
-                            ),
-                            DropdownMenuItem(
-                              value: 3,
-                              child: Text('Green'),
-                            ),
-                          ],*/
-                        ),*/
-
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (showSortList == false) {
-                                showSortList = true;
-                              } else {
-                                showSortList = false;
-                              }
-                            });
-                          },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/sort.png',
-                                width: 15.w,
-                                height: 15.h,
-                              ),
-                              SizedBox(width: 2.w),
-                              CustomeText(
-                                title: 'Sort',
-                                color: Colors.black.withOpacity(0.4),
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ],
-                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FilterScreen()));
+                        },
+                        icon:Icon(Icons.filter_alt,size: 40,color: Colors.black54,)
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 5.h),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 5,
-                      padding: EdgeInsetsDirectional.only(bottom: 20.h),
-                      itemBuilder: (context, index) {
-                        String listImage = listImages.elementAt(index);
-                        return Column(
+                ),
+                SizedBox(height: 25.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomeText(
+                        title: '40+ Places found to buy',
+                        color: Colors.black.withOpacity(0.7),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+
+
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (showSortList == false) {
+                              showSortList = true;
+                            } else {
+                              showSortList = false;
+                            }
+                          });
+                        },
+                        child: Row(
                           children: [
-                            Card(
-                              elevation: 10,
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.r),
-                              ),
-                              child: Column(
-                                children: [
-                                  Stack(
+                            Image.asset(
+                              'assets/images/sort.png',
+                              width: 15.w,
+                              height: 15.h,
+                            ),
+                            SizedBox(width: 2.w),
+                            CustomeText(
+                              title: 'Sort',
+                              color: Colors.black.withOpacity(0.4),
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 5.h),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 5,
+                    physics: BouncingScrollPhysics(),
+                    padding: EdgeInsetsDirectional.only(bottom: 20.h),
+                    itemBuilder: (context, index) {
+                      String listImage = listImages.elementAt(index);
+                      return Column(
+                        children: [
+                          Card(
+                           elevation: 5,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10
+                                  .r),
+                            ),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Image.asset(
+                                      listImage,
+                                      width: double.infinity,
+                                      isAntiAlias: true,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(width: 5.w),
+                                        Column(
+                                          children: [
+                                            SizedBox(height: 15.h),
+                                            CardCamera(
+                                                image:
+                                                'assets/images/camera.png',
+                                                title: '8'),
+                                            CardCamera(
+                                                image:
+                                                'assets/images/video.png',
+                                                title: '3'),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        SizedBox(height: 8.h),
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: [
+                                            CardMoreDetails(
+                                                image:
+                                                'assets/images/call.png',),
+                                            CardMoreDetails(
+                                              image:
+                                              'assets/images/chat.png',
+                                              pressCard: (){
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => ChatScreen()));
+                                              },
+                                            ),
+                                            CardMoreDetails(
+                                                image:
+                                                'assets/images/favorite.png'),
+                                            CardMoreDetails(
+                                                image:
+                                                'assets/images/share.png'),
+                                            SizedBox(width: 5.w),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.h),
+                                Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal: 20.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CardDetails(
+                                          image: 'assets/images/bath.png',
+                                          title: '2 Baths'),
+                                      CardDetails(
+                                          image: 'assets/images/bath.png',
+                                          title: '4 Beds'),
+                                      CardDetails(
+                                          image: 'assets/images/bath.png',
+                                          title: '4 Rooms'),
+                                      ],
+                                  ),
+                                ),
+                                SizedBox(height: 10.h),
+                                Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal: 20.w),
+                                  child: Row(
                                     children: [
                                       Image.asset(
-                                        listImage,
-                                        width: double.infinity,
-                                        isAntiAlias: true,
+                                        'assets/images/location.png',
+                                        width: 25.w,
+                                        height: 25.h,
                                       ),
-                                      Row(
-                                        children: [
-                                          SizedBox(width: 5.w),
-                                          Column(
-                                            children: [
-                                              SizedBox(height: 15.h),
-                                              CardCamera(
-                                                  image:
-                                                      'assets/images/camera.png',
-                                                  title: '8'),
-                                              CardCamera(
-                                                  image:
-                                                      'assets/images/video.png',
-                                                  title: '3'),
-                                            ],
-                                          ),
-                                        ],
+                                      SizedBox(width: 10.w),
+                                      CustomeText(
+                                        title: 'Central park, RAFAH, GAZA',
+                                        color: Colors.black.withOpacity(0.4),
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      Column(
-                                        children: [
-                                          SizedBox(height: 8.h),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              CardMoreDetails(
-                                                  image:
-                                                      'assets/images/call.png'),
-                                              CardMoreDetails(
-                                                  image:
-                                                      'assets/images/chat.png',
-                                                pressCard: (){
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => ChatScreen()));
-                                                },
-                                              ),
-                                              CardMoreDetails(
-                                                  image:
-                                                      'assets/images/favorite.png'),
-                                              CardMoreDetails(
-                                                  image:
-                                                      'assets/images/share.png'),
-                                              SizedBox(width: 5.w),
-                                            ],
-                                          ),
-                                        ],
+                                      Spacer(),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Color(0xff6EB3D0),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(5.w),
+                                          )
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PlaceDetails()));
+                                        },
+                                        child: CustomeText(
+                                          title: 'Details ...',
+                                          color: Colors.white,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 10.h),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.w),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CardDetails(
-                                            image: 'assets/images/bath.png',
-                                            title: '2 Baths'),
-                                        CardDetails(
-                                            image: 'assets/images/bath.png',
-                                            title: '4 Beds'),
-                                        CardDetails(
-                                            image: 'assets/images/bath.png',
-                                            title: '4 Rooms'),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.w),
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/location.png',
-                                          width: 25.w,
-                                          height: 25.h,
-                                        ),
-                                        SizedBox(width: 10.w),
-                                        CustomeText(
-                                          title: 'Central park, RAFAH, GAZA',
-                                          color: Colors.black.withOpacity(0.4),
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        Spacer(),
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Color(0xff6EB3D0),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.w),
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PlaceDetails()));
-                                          },
-                                          child: CustomeText(
-                                            title: 'Details ...',
-                                            color: Colors.white,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h)
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: 10.h)
+                              ],
                             ),
-                            SizedBox(height: 10.h),
-                          ],
-                        );
-                      },
-                    ),
+                          ),
+                          SizedBox(height: 10.h),
+                        ],
+                      );
+                    },
                   ),
-                ],
-              ),
-              showSortList ? Positioned(
+                ),
+              ],
+            ),
+            showSortList ? Positioned(
                 right: 10.w,
-                  top: 220.h,
-                  child: CardListSort()
-              ) : SizedBox(),
-            ],
-          ),
+                top: 220.h,
+                child: CardListSort()
+            ) : SizedBox(),
+          ],
         ),
       ),
-    );
+        );
+
+
   }
 
   Widget CardListSort() {
@@ -473,7 +342,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   Widget _myRadioButton(
       {required String title,

@@ -65,15 +65,15 @@ class _SearchPropertyState extends State<SearchProperty> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 80.h),
               Image.asset(
                 'assets/images/logo.png',
-                width: 270.w,
-                height: 270.h,
+                width: 240.w,
+                height: 240.h,
               ),
-              SizedBox(height: 5.h),
+              SizedBox(height: 10.h),
               CustomeText(
                 title: 'PROFESSIONAL COMPANY',
                 textAlign: TextAlign.center,
@@ -101,130 +101,176 @@ class _SearchPropertyState extends State<SearchProperty> {
                     ),
                   ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CustomeText(
-                          title: 'I',
-                          textAlign: TextAlign.center,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                        ),
-                        CustomeText(
-                          title: ' WANT TO',
-                          textAlign: TextAlign.center,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.sp,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CardSearchProperty(
-                          image: 'assets/images/buy.png',
-                          title: 'Buy',
-                          widthImage: 30.w,
-                          heightImage: 30.h,
-                          color: isSelected1 ? Color(0xff6EB3D0) : Colors.white,
-                          textColor: isSelected1 ? Colors.white : Colors.grey,
-                          pressCard: () {
-                            setState(() {
-                              if (isSelected1 == false) {
-                                isSelected1 = true;
-                                isSelected2 = false;
-                                isSelected3 = false;
-                              } else {
-                                isSelected1 = false;
-                              }
-                            });
-                          },
-                        ),
-                        // SizedBox(width: 15.w),
-                        Spacer(),
-                        CardSearchProperty(
-                          image: 'assets/images/rent2.png',
-                          title: 'Rent',
-                          widthImage: 35.w,
-                          heightImage: 35.h,
-                          color: isSelected2 ? Color(0xff6EB3D0) : Colors.white,
-                          textColor: isSelected2 ? Colors.white : Colors.grey,
-                          pressCard: () {
-                            setState(() {
-                              if (isSelected2 == false) {
-                                isSelected1 = false;
-                                isSelected2 = true;
-                                isSelected3 = false;
-                              } else {
-                                isSelected2 = false;
-                              }
-                            });
-                          },
-                        ),
-                        Spacer(),
-                        CardSearchProperty(
-                          image: 'assets/images/sell.png',
-                          title: 'Sell',
-                          widthImage: 30.w,
-                          heightImage: 30.h,
-                          color: isSelected3 ? Color(0xff6EB3D0) : Colors.white,
-                          textColor: isSelected3 ? Colors.white : Colors.grey,
-                          pressCard: () {
-                            setState(() {
-                              if (isSelected3 == false) {
-                                isSelected1 = false;
-                                isSelected2 = false;
-                                isSelected3 = true;
-                              } else {
-                                isSelected3 = false;
-                              }
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: isSelected1 || isSelected2 ?30.h:20.h),
-                    isSelected1 || isSelected2
-                        ? Row(
-                            children: [
-                              SizedBox(width: 15.w),
-                              CustomeText(
-                                title: 'Area / City',
-                                textAlign: TextAlign.center,
-                                color: Colors.black,
-                                fontSize: 24.sp,
-                              ),
-                            ],
-                          )
-                        : SizedBox(),
-                    isSelected1 || isSelected2
-                        ? SizedBox(height: 20.h)
-                        : SizedBox(),
-                    isSelected1 || isSelected2
-                        ? TextFiledSearch(
-                            searchQuery: searchQuery!,
-                            pressClose: () {
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomeText(
+                            title: 'I',
+                            textAlign: TextAlign.center,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.sp,
+                          ),
+                          CustomeText(
+                            title: ' WANT TO',
+                            textAlign: TextAlign.center,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.sp,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CardSearchProperty(
+                            image: 'assets/images/buy.png',
+                            title: 'Buy',
+                            widthImage: 30.w,
+                            heightImage: 30.h,
+                            color: isSelected1 ? Color(0xff6EB3D0) : Colors.white,
+                            textColor: isSelected1 ? Colors.white : Colors.grey,
+                            pressCard: () {
                               setState(() {
-                                searchQuery!.clear();
+                                if (isSelected1 == false) {
+                                  isSelected1 = true;
+                                  isSelected2 = false;
+                                  isSelected3 = false;
+                                } else {
+                                  isSelected1 = false;
+                                }
                               });
                             },
-                          )
-                        : SizedBox(),
-                    isSelected1 || isSelected2
-                        ? SizedBox(height: 40.h)
-                        : SizedBox(),
-                    isSelected1 || isSelected2
-                        ? ElevatedButton(
+                          ),
+                          // SizedBox(width: 15.w),
+                          Spacer(),
+                          CardSearchProperty(
+                            image: 'assets/images/rent2.png',
+                            title: 'Rent',
+                            widthImage: 35.w,
+                            heightImage: 35.h,
+                            color: isSelected2 ? Color(0xff6EB3D0) : Colors.white,
+                            textColor: isSelected2 ? Colors.white : Colors.grey,
+                            pressCard: () {
+                              setState(() {
+                                if (isSelected2 == false) {
+                                  isSelected1 = false;
+                                  isSelected2 = true;
+                                  isSelected3 = false;
+                                } else {
+                                  isSelected2 = false;
+                                }
+                              });
+                            },
+                          ),
+                          Spacer(),
+                          CardSearchProperty(
+                            image: 'assets/images/sell.png',
+                            title: 'Sell',
+                            widthImage: 30.w,
+                            heightImage: 30.h,
+                            color: isSelected3 ? Color(0xff6EB3D0) : Colors.white,
+                            textColor: isSelected3 ? Colors.white : Colors.grey,
+                            pressCard: () {
+                              setState(() {
+                                if (isSelected3 == false) {
+                                  isSelected1 = false;
+                                  isSelected2 = false;
+                                  isSelected3 = true;
+                                } else {
+                                  isSelected3 = false;
+                                }
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: isSelected1 || isSelected2 ?30.h:20.h),
+                      isSelected1 || isSelected2
+                          ? Row(
+                              children: [
+                                SizedBox(width: 15.w),
+                                CustomeText(
+                                  title: 'Area / City',
+                                  textAlign: TextAlign.center,
+                                  color: Colors.black,
+                                  fontSize: 24.sp,
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
+                      isSelected1 || isSelected2
+                          ? SizedBox(height: 20.h)
+                          : SizedBox(),
+                      isSelected1 || isSelected2
+                          ? TextFiledSearch(
+                              searchQuery: searchQuery!,
+                              pressClose: () {
+                                setState(() {
+                                  searchQuery!.clear();
+                                });
+                              },
+                            )
+                          : SizedBox(),
+                      isSelected1 || isSelected2
+                          ? SizedBox(height: 40.h)
+                          : SizedBox(),
+                      isSelected1 || isSelected2
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Color(0xff6EB3D0),
+                                  minimumSize: Size(double.infinity, 60.h),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.w),
+                                  )),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            HomeScreen()));
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomeText(
+                                    title: 'Search Property',
+                                    fontSize: 20.sp,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Image.asset(
+                                    'assets/images/arrow.png',
+                                    width: 35.w,
+                                    height: 35.h,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : SizedBox(),
+                      isSelected1 || isSelected2 ?SizedBox(height: 30.h):SizedBox(),
+                      isSelected3 ?Row(
+                        children: [
+                          Flexible(
+                             child: CustomTextFilledApp(
+                              hintText: 'user name',
+                              suffixIcon: 'assets/images/user.png',
+                              lable: 'user name',
+                              controller: userNameController,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 primary: Color(0xff6EB3D0),
-                                minimumSize: Size(double.infinity, 60.h),
+                                minimumSize: Size(80.w, 55.h),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.w),
                                 )),
@@ -233,130 +279,86 @@ class _SearchPropertyState extends State<SearchProperty> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          HomeScreen()));
+                                          OwnerScreen()));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CustomeText(
-                                  title: 'Search Property',
-                                  fontSize: 20.sp,
+                                  title: 'Sign In',
+                                  fontSize: 16.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                 ),
                                 SizedBox(width: 10.w),
                                 Image.asset(
-                                  'assets/images/arrow.png',
-                                  width: 35.w,
-                                  height: 35.h,
+                                  'assets/images/signIn.png',
+                                  width: 20.w,
+                                  height: 20.h,
                                 ),
                               ],
                             ),
                           )
-                        : SizedBox(),
-                    isSelected1 || isSelected2 ?SizedBox(height: 30.h):SizedBox(),
-                    isSelected3 ?Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextFilledApp(
-                            hintText: 'user name',
-                            suffixIcon: 'assets/images/user.png',
-                            lable: 'user name',
-                            controller: userNameController,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Color(0xff6EB3D0),
-                              minimumSize: Size(80.w, 55.h),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.w),
-                              )),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        OwnerScreen()));
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomeText(
-                                title: 'Sign In',
-                                fontSize: 16.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              SizedBox(width: 10.w),
-                              Image.asset(
-                                'assets/images/signIn.png',
-                                width: 20.w,
-                                height: 20.h,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ):SizedBox(),
-                    isSelected3 ?SizedBox(height: 5.h):SizedBox(),
-                    isSelected3 ?Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextFilledPassword(
-                            hintText: 'password',
-                            suffixIcon: 'assets/images/lock.png',
-                            lable: 'password',
-                            controller: passwordController,
-                          ),
-                        ),
-                        SizedBox(width: 12.w),
-                        SizedBox(width: 30.w,height: 30.h,child: Checkbox(value: false, onChanged: (value){},)),
-                        CustomeText(
-                          title: 'Remember Me',
-                          fontSize: 12.sp,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ],
-                    ):SizedBox(),
-                    isSelected3 ?SizedBox(height: 20.h):SizedBox(),
-                    isSelected3 ?SizedBox(
-                      width: 250.w,
-                      height: 10.h,
-                      child: TextButton(onPressed: (){}, child: CustomeText(
-                        title: 'Forgot Password?',
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey.shade400,
-                      )),
-                    ):SizedBox(),
-                    isSelected3 ?SizedBox(height: 40.h):SizedBox(),
-                    isSelected3 ?RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        text: 'Don\'t Have Account ? ',
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        ],
+                      ):SizedBox(),
+                      isSelected3 ?SizedBox(height: 5.h):SizedBox(),
+                      isSelected3 ?Row(
                         children: [
-                          TextSpan(
-                            recognizer: _tapGestureRecognizer,
-                            text: 'Sign Up',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                           Flexible(
+                             child: CustomTextFilledPassword(
+                              hintText: 'password',
+                              suffixIcon: 'assets/images/lock.png',
+                              lable: 'password',
+                              controller: passwordController,
                             ),
                           ),
+                          SizedBox(width: 12.w),
+                          SizedBox(width: 30.w,height: 30.h,child: Checkbox(value: false, onChanged: (value){},)),
+                          CustomeText(
+                            title: 'Remember Me',
+                            fontSize: 12.sp,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ],
-                      ),
-                    ):SizedBox(),
-                    SizedBox(height: 20.h),
-                  ],
+                      ):SizedBox(),
+                      isSelected3 ?SizedBox(height: 20.h):SizedBox(),
+                      isSelected3 ?SizedBox(
+                        width: 250.w,
+                        height: 10.h,
+                        child: TextButton(onPressed: (){}, child: CustomeText(
+                          title: 'Forgot Password?',
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey.shade400,
+                        )),
+                      ):SizedBox(),
+                      isSelected3 ?SizedBox(height: 40.h):SizedBox(),
+                      isSelected3 ?RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: 'Don\'t Have Account ? ',
+                          style: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          children: [
+                            TextSpan(
+                              recognizer: _tapGestureRecognizer,
+                              text: 'Sign Up',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ):SizedBox(),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
                 ),
               ),
             ],

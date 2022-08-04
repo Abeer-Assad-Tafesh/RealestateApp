@@ -16,7 +16,7 @@ class CardDetails extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.r),
+        borderRadius: BorderRadius.circular(5.r),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),

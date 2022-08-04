@@ -54,3 +54,7 @@ android {
 flutter {
     source '../..'
 }
+/*
+flavorName {
+    applicationId = "com.example.real_state"
+}*/

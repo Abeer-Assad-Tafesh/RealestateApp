@@ -27,7 +27,7 @@ class CardLoad extends StatelessWidget {
               title: title,
               fontSize: 11.sp,
               color: Colors.white,
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.center,
             ),
           ),
         ),
