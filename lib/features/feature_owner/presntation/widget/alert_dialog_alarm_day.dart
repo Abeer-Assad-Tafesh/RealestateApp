@@ -40,19 +40,19 @@ class _AlertDialogAddReminderFunState extends State<AlertDialogAddReminderFun> {
             children: [
               Row(
                 children: [
-                  Expanded(child: ItemRowAlertDialogReminder(title: 'Title',hint: 'title',)),
+                  // Expanded(child: ItemRowAlertDialogReminder(title: 'Title',hint: 'title',)),
                   SizedBox(width: 10.w),
                   SizedBox(width: 110.w,child: Row(
                     children: [
                       Image.asset('assets/images/time.png',width: 25.w,height: 25.h,color: Colors.grey.shade700,),
                       SizedBox(width: 10.w),
-                      Expanded(child: ItemRowAlertDialogReminder(hint: '10.00',textInputType: TextInputType.datetime,type: 0,)),
+                      // Expanded(child: ItemRowAlertDialogReminder(hint: '10.00',textInputType: TextInputType.datetime,type: 0,)),
                     ],
                   )),
                 ],
               ),
               SizedBox(height: 15.h),
-              ItemRowAlertDialogReminder(title: 'Note',hint: 'note',),
+              // ItemRowAlertDialogReminder(title: 'Note',hint: 'note',),
 
 
             ],

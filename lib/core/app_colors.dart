@@ -1,8 +1,8 @@
 import 'dart:ui';
 const kBorderColorGray = Color(0xFFC4C4C4);
- const kColorPrimary = Color(0xffF5f7fa);
- const kSelectTabColor = Color(0xFF141321);
- const kUnSelectTabColor = Color(0xFFC4C4C4);
+const kColorPrimary = Color(0xffF5f7fa);
+const kSelectTabColor = Color(0xFF141321);
+const kUnSelectTabColor = Color(0xFFC4C4C4);
 const kColorButtom = Color(0xFFf4f1f2);
 const kColorSplash = Color(0xFFDFDCD5);
 const kBorderColor = Color(0xFFABABAB);

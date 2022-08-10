@@ -24,13 +24,16 @@ class CardDetailsPlaceDetails extends StatelessWidget {
           children: [
             Image.asset(image,width: 20.w,height: 20.h,),
             SizedBox(width: 7.w),
-            CustomeText(
-              title: title,
-              color: Colors.black.withOpacity(0.4),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              maxLines: 1,
-              overflow: 1,
+            SizedBox(
+              width: 50,
+              child: CustomeText(
+                title: title,
+                color: Colors.black.withOpacity(0.4),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                maxLines: 1,
+                overflow: 1,
+              ),
             ),
           ],
         ),

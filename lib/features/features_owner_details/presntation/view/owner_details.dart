@@ -139,42 +139,44 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                                       title: 'Mon-Fri (10:00AM - 4:00PM)'),
                                 ],
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  ItemRowOwnerDetails(
-                                    image: 'assets/images/microphone.png',
-                                    title: '27-03-2021',
-                                    fontColor: Colors.grey.shade700,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  Image.asset(
-                                    'assets/images/Andego.png',
-                                    width: 160.w,
-                                    height: 100.h,
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      CardOwnerDetails(
-                                          image: 'assets/images/call.png'),
-                                      CardOwnerDetails(
-                                          image: 'assets/images/chat.png',
-                                          pressCard: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ChatScreen()),
-                                            );
-                                          }),
-                                      CardOwnerDetails(
-                                          image: 'assets/images/gmail.png'),
-                                    ],
-                                  ),
-                                ],
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    ItemRowOwnerDetails(
+                                      image: 'assets/images/microphone.png',
+                                      title: '27-03-2021',
+                                      fontColor: Colors.grey.shade700,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    Image.asset(
+                                      'assets/images/Andego.png',
+                                      width: 160.w,
+                                      height: 100.h,
+                                    ),
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        CardOwnerDetails(
+                                            image: 'assets/images/call.png'),
+                                        CardOwnerDetails(
+                                            image: 'assets/images/chat.png',
+                                            pressCard: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ChatScreen()),
+                                              );
+                                            }),
+                                        CardOwnerDetails(
+                                            image: 'assets/images/gmail.png'),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
