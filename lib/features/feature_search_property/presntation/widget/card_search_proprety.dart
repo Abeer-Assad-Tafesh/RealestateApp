@@ -32,19 +32,20 @@ class CardSearchProperty extends StatelessWidget {
         decoration: BoxDecoration(
             color: color,
           border: Border.all(color: Colors.grey.shade500,width: 0.5),
-          borderRadius: BorderRadius.circular(20.w),
+          borderRadius: BorderRadius.circular(10.w),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 10),
+           // SizedBox(height: 10),
             Image.asset(
               image,
               width: widthImage,
               height: heightImage,
               color: textColor,
             ),
-            SizedBox(height: 25.h),
+          //  SizedBox(height: 10.h),
+            SizedBox(height: 10),
             CustomeText(
               title: title,
               fontSize: 18.sp,

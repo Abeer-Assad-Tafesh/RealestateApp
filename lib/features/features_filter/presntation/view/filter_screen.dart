@@ -9,6 +9,7 @@ import 'package:real_state/features/features_filter/presntation/widget/card_filt
 import 'package:real_state/features/features_filter/presntation/widget/card_num_filter.dart';
 import 'package:real_state/features/features_filter/presntation/widget/listView_year_filter.dart';
 import 'package:real_state/features/features_filter/presntation/widget/list_view_filter.dart';
+import 'package:real_state/features/layout.dart';
 import 'package:real_state/features/widget/custome_text.dart';
 import 'package:real_state/features/widget/text_filed_search.dart';
 
@@ -33,60 +34,19 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
       designSize: Size(SCREEN_WIDTH, SCREEN_HIGHT),
     );
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
+    int currentIndex=0;
+
+    return BackScreenLayout(context,
+        ScreenWidget: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 50.h,
-                      alignment: Alignment.topCenter,
-                      child: Image.asset(
-                        'assets/images/back.png',
-                        width: 30.w,
-                        height: 30.h,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 15.w),
-                  Image.asset(
-                    'assets/images/notifcation.png',
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                  Spacer(),
-                  Image.asset(
-                    'assets/images/logoApp.png',
-                    width: 80.w,
-                    height: 80.h,
-                  ),
-                  Spacer(),
-                  Image.asset(
-                    'assets/images/menu.png',
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                ],
-              ),
-            ),
+
             SizedBox(height: 15.h),
             Expanded(
               child: SingleChildScrollView(
@@ -131,16 +91,17 @@ class _FilterScreenState extends State<FilterScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: 5,
-                          itemBuilder: (context, index) {
+                          itemBuilder: (context,currentIndex ) {
                             return CardFilter(
-                              color: indexList == index
+                              color: indexList == currentIndex
                                   ? Color(0xff6EB3D0)
                                   : Colors.white,
                               textColor:
-                                  indexList == index ? Colors.white : Colors.grey,
+                              indexList == currentIndex
+                                  ? Colors.white : Colors.grey,
                               pressCard: () {
                                 setState(() {
-                                  indexList = index;
+                                  indexList = currentIndex;
                                 });
                               },
                             );
@@ -148,6 +109,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         ),
                       ),
                       SizedBox(height: 25.h),
+
                       Padding(
                         padding: EdgeInsetsDirectional.only(start: 15.w),
                         child: CustomeText(
@@ -226,7 +188,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           SizedBox(),
                           CustomeText(
                             title:
-                                '${_currentRangeValuesArea.start.toString()} M',
+                            '${_currentRangeValuesArea.start.toString()} M',
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.grey.shade600,
@@ -300,15 +262,14 @@ class _FilterScreenState extends State<FilterScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 25.h),
+                      SizedBox(height: 25.h)
                     ],
                   ),
                 ),
               ),
             ),
           ],
-        ),
-      ),
+        )
     );
   }
 }

@@ -25,9 +25,10 @@ class _TextFiledSearchState extends State<TextFiledSearch> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       decoration: BoxDecoration(
           color: kSearchFiledColor,
-          borderRadius: BorderRadius.all(Radius.circular(5)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: Colors.grey, width: 0.5)),
       child: TextField(
         maxLines: 1,
@@ -72,9 +73,13 @@ class _TextFiledSearchState extends State<TextFiledSearch> {
           ),
 
           isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+          border:  OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: Colors.grey, width: 0.5)),
+          enabledBorder:  OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: Colors.grey, width: 0.5)),
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: Colors.grey, width: 0.5)),

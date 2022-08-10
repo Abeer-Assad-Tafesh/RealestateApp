@@ -1,5 +1,3 @@
- import 'package:flutter_screenutil/flutter_screenutil.dart';
-
  const double RADUIS_CARD_HOME=10.0;
  const double RADUIS_CARD_PRODUCT=15.0;
  const double fontSize15=15.0;

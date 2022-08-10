@@ -34,14 +34,14 @@ class CardFilter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 5.h),
+             // SizedBox(height: 5.h),
               Image.asset(
                 'assets/images/select.png',
-                width: 80.w,
-                height: 80.h,
+                width: 60.w,
+                height: 60.h,
                 color: textColor,
               ),
-              SizedBox(height: 7.h),
+              //SizedBox(height: 7.h),
               CustomeText(
                 title: 'Select All',
                 fontSize: 22.sp,

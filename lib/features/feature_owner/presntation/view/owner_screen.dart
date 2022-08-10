@@ -16,9 +16,12 @@ import 'package:real_state/features/feature_owner/presntation/widget/row_add_det
 import 'package:real_state/features/feature_owner/presntation/widget/textField_owner.dart';
 import 'package:real_state/features/feature_place_details/presntation/view/place_details.dart';
 import 'package:real_state/features/feature_search_property/presntation/view/search_property.dart';
+import 'package:real_state/features/features_owner_details/presntation/view/upload_owner_details.dart';
+import 'package:real_state/features/layout.dart';
 import 'package:real_state/features/widget/custom_textfilled_app.dart';
 import 'package:real_state/features/widget/custome_btn.dart';
 import 'package:real_state/features/widget/custome_text.dart';
+import 'package:real_state/features/widget/shared_components.dart';
 
 class OwnerScreen extends StatefulWidget {
   const OwnerScreen({Key? key}) : super(key: key);
@@ -39,6 +42,7 @@ class _OwnerScreenState extends State<OwnerScreen> {
   bool isSelectedAddProperty2 = false;
   bool isSelectedAddProperty3 = false;
   bool showFilter = false;
+  bool uploadAsset = false;
   String typeFilter = 'SELECT';
 
   var listImages = [
@@ -57,6 +61,18 @@ class _OwnerScreenState extends State<OwnerScreen> {
         ) ??
         false;
   }
+  Future<bool> _onWillPopPhotosAndVideos() async {
+    return await showDialog(
+      context: context,
+      // barrierDismissible: true,
+      builder: (context) => AlertDialogUploadPhotosAndVideos(
+        title: 'UPLOAD PHOTOS & VIDEOS',
+        typeImage1: 'UPLOAD PHOTOS',
+        typeImage2: 'UPLOAD VIDEOS',
+      ),
+    ) ??
+        false;
+  }
 
   Future<bool> _onWillPopMap() async {
     return await showDialog(
@@ -67,6 +83,19 @@ class _OwnerScreenState extends State<OwnerScreen> {
             typeImage1: 'UPLOAD GOOGLE MAP TYPE A',
             typeImage2: 'UPLOAD GOOGLE MAP TYPE B',
             typeImage3: 'UPLOAD GOOGLE MAP TYPE C',
+          ),
+        ) ??
+        false;
+  }
+  Future<bool> _onWillPopNearBy() async {
+    return await showDialog(
+          context: context,
+          // barrierDismissible: true,
+          builder: (context) => AlertDialogUploadFun(
+            title: 'UPLOAD NEARBY UTILITIES',
+            typeImage1: 'UPLOAD NEARBY HOSPITAL',
+            typeImage2: 'UPLOAD NEARBY SCHOOL',
+            typeImage3: 'UPLOAD NEARBY MALL',
           ),
         ) ??
         false;
@@ -92,61 +121,14 @@ class _OwnerScreenState extends State<OwnerScreen> {
       context,
       designSize: Size(SCREEN_WIDTH, SCREEN_HIGHT),
     );
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+    return BackScreenLayout(context,
+        ScreenWidget:  SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
               children: [
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.h, horizontal: 5.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SearchProperty()),
-                              (route) => false);
-                        },
-                        child: Container(
-                          height: 50.h,
-                          alignment: Alignment.topCenter,
-                          child: Image.asset(
-                            'assets/images/back.png',
-                            width: 30.w,
-                            height: 30.h,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 15.w),
-                      Image.asset(
-                        'assets/images/notifcation.png',
-                        width: 30.w,
-                        height: 30.h,
-                      ),
-                      Spacer(),
-                      Image.asset(
-                        'assets/images/logoApp.png',
-                        width: 80.w,
-                        height: 80.h,
-                      ),
-                      Spacer(),
-                      Image.asset(
-                        'assets/images/menu.png',
-                        width: 30.w,
-                        height: 30.h,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 30.h),
+
+                SizedBox(height: 15.h),
                 CustomeText(
                   title: 'OWNER HOME PAGE',
                   color: Colors.black.withOpacity(0.7),
@@ -162,7 +144,7 @@ class _OwnerScreenState extends State<OwnerScreen> {
                     CircleAvatar(
                       radius: 45.r,
                       backgroundImage:
-                          AssetImage('assets/images/person_user.png'),
+                      AssetImage('assets/images/person_user.png'),
                     ),
                     SizedBox(width: 15.w),
                     Column(
@@ -199,7 +181,7 @@ class _OwnerScreenState extends State<OwnerScreen> {
                       title: 'PROPERTIES',
                       image: 'assets/images/property.png',
                       color:
-                          isSelectedType1 ? Colors.grey.shade400 : Colors.white,
+                      isSelectedType1 ? Colors.grey.shade400 : Colors.white,
                       textColor: isSelectedType1
                           ? Colors.white
                           : Colors.black.withOpacity(0.7),
@@ -219,7 +201,7 @@ class _OwnerScreenState extends State<OwnerScreen> {
                       title: 'REMINDER',
                       image: 'assets/images/reminder.png',
                       color:
-                          isSelectedType2 ? Colors.grey.shade400 : Colors.white,
+                      isSelectedType2 ? Colors.grey.shade400 : Colors.white,
                       textColor: isSelectedType2
                           ? Colors.white
                           : Colors.black.withOpacity(0.7),
@@ -245,8 +227,7 @@ class _OwnerScreenState extends State<OwnerScreen> {
               ],
             ),
           ),
-        ),
-      ),
+        )
     );
   }
 
@@ -403,171 +384,187 @@ class _OwnerScreenState extends State<OwnerScreen> {
           ],
         ),
         SizedBox(height: 25.h),
-        Column(
-          children: [
-            RowAddDetails(title: 'PROPERTY ADDRESS'),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY BUDGET', textInputType: TextInputType.number),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY TOTAL AREA',
-                showSuffixIcon: true,
-                textInputType: TextInputType.number),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY LIVABLE AREA',
-                showSuffixIcon: true,
-                textInputType: TextInputType.number),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY FLOOR NUMBER',
-                textInputType: TextInputType.number),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY ROOM NUMBER',
-                textInputType: TextInputType.number),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY BATHROOM NUMBER',
-                textInputType: TextInputType.number),
-            SizedBox(height: 10.h),
-            RowAddDetails(
-                title: 'PROPERTY KITCHEN NUMBER',
-                textInputType: TextInputType.number),
-          ],
-        ),
-        SizedBox(height: 25.h),
-        Row(
-          children: [
-            ColumnPropertyCondition(
-              title: 'PROPERTY CONDITION',
-              details: 'LUXURY',
-            ),
-            ColumnPropertyCondition(
-              title: 'CONSTRUCTION YEAR',
-              details: '2022 - 2019',
-            ),
-          ],
-        ),
-        SizedBox(height: 25.h),
-        Row(
-          children: [
-            SizedBox(width: 30.w),
-            CustomeText(
-              title: 'PROPERTY DETAILS',
-              color: Colors.black.withOpacity(0.6),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ],
-        ),
-        SizedBox(height: 10.h),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  _myRadioButton(
-                    title: "ELEVATOR",
-                    image: 'assets/images/garden.png',
-                    value: 0,
-                    onChanged: (newValue) =>
-                        setState(() => _groupValue = newValue),
-                  ),
-                  _myRadioButton(
-                    title: "SWIMMING POOL",
-                    image: 'assets/images/garden.png',
-                    value: 1,
-                    onChanged: (newValue) =>
-                        setState(() => _groupValue = newValue),
-                  ),
-                  _myRadioButton(
-                    title: "GARAGE",
-                    image: 'assets/images/garden.png',
-                    value: 2,
-                    onChanged: (newValue) =>
-                        setState(() => _groupValue = newValue),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: 10.w),
-            Expanded(
-              child: Column(
-                children: [
-                  _myRadioButton(
-                    title: "GARDEN",
-                    image: 'assets/images/garden.png',
-                    value: 3,
-                    onChanged: (newValue) =>
-                        setState(() => _groupValue = newValue),
-                  ),
-                  _myRadioButton(
-                    title: "TERRACE",
-                    image: 'assets/images/garden.png',
-                    value: 4,
-                    onChanged: (newValue) =>
-                        setState(() => _groupValue = newValue),
-                  ),
-                  _myRadioButton(
-                    title: "FENCED YARD",
-                    image: 'assets/images/garden.png',
-                    value: 5,
-                    onChanged: (newValue) =>
-                        setState(() => _groupValue = newValue),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 25.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CardLoad(title: 'UPLOAD PROPERTY PHOTOS'),
-                CardLoad(
-                  title: 'UPLOAD PROPERTY BL. PRINT',
-                  pressCard: _onWillPopBluePrint,
-                ),
-                CardLoad(
-                  title: 'UPLOAD PROPERTY MAP',
-                  pressCard: _onWillPopMap,
-                ),
-              ],
-            ),
-            SizedBox(width: 10.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CardLoad(title: 'UPLOAD PROPERTY VIDEOS'),
-                CardLoad(title: 'UPLOAD PROPERTY DETAILS'),
-                CardLoad(title: 'UPLOAD PROPERTY CONTRACT'),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(height: 25.h),
-        GestureDetector(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 15.h),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/backBtn.png'),
-                  fit: BoxFit.fill),
-            ),
-            child: CustomeText(
-              title: 'CONFIRM  ',
-              color: Colors.white,
-              fontSize: 20.sp,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
+        isSelectedAddProperty1 || isSelectedAddProperty2||isSelectedAddProperty3?
+       Column(
+         children: [
+           Column(
+             children: [
+               RowAddDetails(title: 'PROPERTY ADDRESS'),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY BUDGET', textInputType: TextInputType.number),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY TOTAL AREA',
+                   showSuffixIcon: true,
+                   textInputType: TextInputType.number),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY LIVABLE AREA',
+                   showSuffixIcon: true,
+                   textInputType: TextInputType.number),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY FLOOR NUMBER',
+                   textInputType: TextInputType.number),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY ROOM NUMBER',
+                   textInputType: TextInputType.number),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY BATHROOM NUMBER',
+                   textInputType: TextInputType.number),
+               SizedBox(height: 10.h),
+               RowAddDetails(
+                   title: 'PROPERTY KITCHEN NUMBER',
+                   textInputType: TextInputType.number),
+             ],
+           ),
+           SizedBox(height: 25.h),
+           Row(
+             children: [
+               ColumnPropertyCondition(
+                 title: 'PROPERTY CONDITION',
+                 details: 'LUXURY',
+               ),
+               ColumnPropertyCondition(
+                 title: 'CONSTRUCTION YEAR',
+                 details: '2022 - 2019',
+               ),
+             ],
+           ),
+           SizedBox(height: 25.h),
+           Row(
+             children: [
+               SizedBox(width: 30.w),
+               CustomeText(
+                 title: 'PROPERTY DETAILS',
+                 color: Colors.black.withOpacity(0.6),
+                 fontSize: 14.sp,
+                 fontWeight: FontWeight.bold,
+               ),
+             ],
+           ),
+           SizedBox(height: 10.h),
+           Row(
+             children: [
+               Expanded(
+                 child: Column(
+                   children: [
+                     _myRadioButton(
+                       title: "ELEVATOR",
+                       image: 'assets/images/garden.png',
+                       value: 0,
+                       onChanged: (newValue) =>
+                           setState(() => _groupValue = newValue),
+                     ),
+                     _myRadioButton(
+                       title: "SWIMMING POOL",
+                       image: 'assets/images/garden.png',
+                       value: 1,
+                       onChanged: (newValue) =>
+                           setState(() => _groupValue = newValue),
+                     ),
+                     _myRadioButton(
+                       title: "GARAGE",
+                       image: 'assets/images/garden.png',
+                       value: 2,
+                       onChanged: (newValue) =>
+                           setState(() => _groupValue = newValue),
+                     ),
+                   ],
+                 ),
+               ),
+               SizedBox(width: 10.w),
+               Expanded(
+                 child: Column(
+                   children: [
+                     _myRadioButton(
+                       title: "GARDEN",
+                       image: 'assets/images/garden.png',
+                       value: 3,
+                       onChanged: (newValue) =>
+                           setState(() => _groupValue = newValue),
+                     ),
+                     _myRadioButton(
+                       title: "TERRACE",
+                       image: 'assets/images/garden.png',
+                       value: 4,
+                       onChanged: (newValue) =>
+                           setState(() => _groupValue = newValue),
+                     ),
+                     _myRadioButton(
+                       title: "FENCED YARD",
+                       image: 'assets/images/garden.png',
+                       value: 5,
+                       onChanged: (newValue) =>
+                           setState(() => _groupValue = newValue),
+                     ),
+                   ],
+                 ),
+               ),
+             ],
+           ),
+           SizedBox(height: 25.h),
+           Row(
+             mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               Column(
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                 children: [
+                   CardLoad(title: 'UPLOAD PROPERTY PHO & VIDS',
+                   pressCard: _onWillPopPhotosAndVideos,),
+                   CardLoad(
+                     title: 'UPLOAD PROPERTY BL. PRINT',
+                     pressCard: _onWillPopBluePrint,
+                   ),
+                   CardLoad(
+                     title: 'UPLOAD PROPERTY MAP',
+                     pressCard: _onWillPopMap,
+                   ),
+                 ],
+               ),
+               SizedBox(width: 10.w),
+               Column(
+                 crossAxisAlignment: CrossAxisAlignment.center,
+                 children: [
+                   CardLoad(title: 'UPLOAD PROPERTY NEARBY',
+                   pressCard: _onWillPopNearBy
+                   ),
+                   CardLoad(title: 'UPLOAD PROPERTY DETAILS',
+                       pressCard:
+                           (){ Navigator.push(
+                           context,
+                           MaterialPageRoute(
+                               builder: (context) => Upload_Owner_Details()));}
+                   ),
+
+                   CardLoad(title: 'UPLOAD PROPERTY CONTRACT'),
+                 ],
+               ),
+             ],
+           ),
+           SizedBox(height: 25.h),
+           GestureDetector(
+             child: Container(
+               padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 15.h),
+               decoration: BoxDecoration(
+                 image: DecorationImage(
+                     image: AssetImage('assets/images/backBtn.png'),
+                     fit: BoxFit.fill),
+               ),
+               child: CustomeText(
+                 title: 'CONFIRM  ',
+                 color: Colors.white,
+                 fontSize: 20.sp,
+                 textAlign: TextAlign.center,
+               ),
+             ),
+           ),
+         ],
+       ):
+
         SizedBox(height: 25.h),
       ],
     );

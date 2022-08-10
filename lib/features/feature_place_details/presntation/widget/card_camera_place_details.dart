@@ -14,6 +14,7 @@ class CardCameraPlaceDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+
       elevation: 4,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
