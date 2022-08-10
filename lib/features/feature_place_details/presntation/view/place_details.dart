@@ -6,7 +6,6 @@ import 'package:real_state/core/app_size.dart';
 import 'package:real_state/features/feature_chat/presntation/view/chat_screen.dart';
 import 'package:real_state/features/feature_owner/presntation/widget/alert_dialog_details.dart';
 import 'package:real_state/features/feature_place_details/presntation/view/map.dart';
-import 'package:real_state/features/feature_place_details/presntation/view/video_player.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/card_blue_print.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/card_camera_place_details.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/card_details_place_details.dart';
@@ -463,7 +462,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                       ),
                                     ],
                                   )
-                                      :SizedBox(),
+                                      :const MapScreen(),
                                   isSelectedMap
                                       ? Positioned(
                                     right: 5.w,
@@ -853,7 +852,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    VideoPlayerScreen();
+                                    SizedBox();
                                   },
                                   child: CardCameraPlaceDetails(
                                       image: 'assets/images/video.png',
@@ -871,7 +870,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                               ],
                             ),
                           ),
-                          VideoPlayerScreen(),
+                          SizedBox(),
                         ],
                       )
                   )
@@ -974,10 +973,5 @@ class _PlaceDetailsState extends State<PlaceDetails> {
     );
   }
 
-  Widget cardVideoPlayer() {
-    return SizedBox(
-      width: double.infinity,
-      child: VideoPlayerScreen(),
-    );
-  }
+
 }
