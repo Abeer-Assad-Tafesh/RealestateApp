@@ -12,10 +12,7 @@ void main(){
   runApp(MainApp());
 }
 
-
-
 class MainApp extends StatefulWidget {
-
 
   @override
   State<MainApp> createState() => _MainAppState();

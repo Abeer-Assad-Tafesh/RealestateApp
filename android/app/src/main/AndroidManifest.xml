@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.real_state">
+    package="com.tripleq.real_state">
    <application
         android:label="real_state"
         android:name="${applicationName}"
@@ -30,7 +30,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
 
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyDuJpIj6O54ATVUL7EMsy7nlZ2Er8HvSjE"/>
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

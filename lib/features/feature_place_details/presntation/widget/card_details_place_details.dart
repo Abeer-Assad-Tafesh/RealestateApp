@@ -27,7 +27,7 @@ class CardDetailsPlaceDetails extends StatelessWidget {
             CustomeText(
               title: title,
               color: Colors.black.withOpacity(0.4),
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
               maxLines: 1,
               overflow: 1,

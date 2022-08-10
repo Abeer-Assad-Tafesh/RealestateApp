@@ -1,4 +1,4 @@
-package com.example.real_state;
+package com.tripleq.real_state;
 
 import io.flutter.embedding.android.FlutterActivity;
 
