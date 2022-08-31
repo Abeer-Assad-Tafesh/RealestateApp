@@ -55,9 +55,9 @@ TextEditingController textEditingController= TextEditingController();
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
-      designSize: Size(SCREEN_WIDTH, SCREEN_HIGHT),
+      designSize: const Size(SCREEN_WIDTH, SCREEN_HIGHT),
     );
-    return ScreenLayout(
+    return AppBarLayout(
       context,
       ScreenWidget: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -91,9 +91,9 @@ TextEditingController textEditingController= TextEditingController();
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      FilterScreen()));
+                                      const FilterScreen()));
                         },
-                        icon:Icon(Icons.filter_alt,size: 40,color: Colors.black54,)
+                        icon:const Icon(Icons.filter_alt,size: 40,color: Colors.black54,)
                       ),
                     ],
                   ),
@@ -110,9 +110,6 @@ TextEditingController textEditingController= TextEditingController();
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                       ),
-
-
-
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -147,7 +144,7 @@ TextEditingController textEditingController= TextEditingController();
                 Expanded(
                   child: ListView.builder(
                     itemCount: 5,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     padding: EdgeInsetsDirectional.only(bottom: 20.h),
                     itemBuilder: (context, index) {
                       String listImage = listImages.elementAt(index);
@@ -169,7 +166,7 @@ TextEditingController textEditingController= TextEditingController();
                                       width: double.infinity,
                                       isAntiAlias: true,
                                     ),
-                                    Row(
+                                    /*Row(
                                       children: [
                                         SizedBox(width: 5.w),
                                         Column(
@@ -186,8 +183,8 @@ TextEditingController textEditingController= TextEditingController();
                                           ],
                                         ),
                                       ],
-                                    ),
-                                    Column(
+                                    ),*/
+                                   /* Column(
                                       children: [
                                         SizedBox(height: 8.h),
                                         Row(
@@ -217,7 +214,7 @@ TextEditingController textEditingController= TextEditingController();
                                           ],
                                         ),
                                       ],
-                                    ),
+                                    ),*/
                                   ],
                                 ),
                                 SizedBox(height: 10.h),
@@ -230,13 +227,17 @@ TextEditingController textEditingController= TextEditingController();
                                     children: [
                                       CardDetails(
                                           image: 'assets/images/bath.png',
-                                          title: '2 Baths'),
+                                          title: '2 Baths',
+                                      color:  Colors.black.withOpacity(0.4),),
                                       CardDetails(
                                           image: 'assets/images/bath.png',
-                                          title: '4 Beds'),
+                                          title: '4 Beds',
+                                        color:  Colors.black.withOpacity(0.4),
+                                      ),
                                       CardDetails(
                                           image: 'assets/images/bath.png',
-                                          title: '4 Rooms'),
+                                          title: '4 Rooms',
+                                          color: Colors.black.withOpacity(0.4)),
                                       ],
                                   ),
                                 ),

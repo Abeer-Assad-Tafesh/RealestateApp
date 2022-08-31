@@ -6,13 +6,14 @@ class CardMoreDetailsOwner extends StatelessWidget {
   String image;
   String title;
   bool showNum;
-  GestureTapCallback? pressCard;
+  GestureTapCallback? onPressCard;
+
 
   CardMoreDetailsOwner({
     required this.image,
     required this.title,
     this.showNum = false,
-    this.pressCard,
+    this.onPressCard,
   });
 
   @override
@@ -20,27 +21,24 @@ class CardMoreDetailsOwner extends StatelessWidget {
     return Stack(
       children: [
         GestureDetector(
-          onTap: pressCard,
+          onTap: onPressCard,
           child: SizedBox(
-            width: 57.w,
-            height: 57.h,
+            width: 58.w,
+            height: 60.h,
             child: Card(
               elevation: 4,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(image,width: 25.w,height: 25.h,),
-                    SizedBox(height: 5.h),
-                    CustomeText(
-                      title: title,
-                      fontSize: 7.sp,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(image,width: 25.w,height: 25.h,),
+                  SizedBox(height: 5.h),
+                  CustomeText(
+                    title: title,
+                    fontSize: 7.sp,
+                    color: Colors.grey.shade700,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ],
               ),
             ),
           ),

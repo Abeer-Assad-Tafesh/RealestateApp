@@ -37,9 +37,9 @@ class CardType extends StatelessWidget {
             side: BorderSide(
               width: 0.5.w,
               color: Colors.grey.shade500
-            )
+            ),
           ),
-          elevation: 0,
+          elevation: 5,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

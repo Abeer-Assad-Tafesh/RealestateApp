@@ -2,10 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:real_state/core/app_colors.dart';
 import 'package:real_state/core/app_size.dart';
 import 'package:real_state/features/feature_chat/presntation/view/chat_screen.dart';
+import 'package:real_state/features/feature_home/presntation/widget/card_details.dart';
 import 'package:real_state/features/feature_owner/presntation/widget/alert_dialog_details.dart';
+import 'package:real_state/features/feature_place_details/presntation/view/full_image.dart';
 import 'package:real_state/features/feature_place_details/presntation/view/map.dart';
+import 'package:real_state/features/feature_place_details/presntation/view/play_videos.dart';
+import 'package:real_state/features/feature_place_details/presntation/view/property_lease_contract.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/card_blue_print.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/card_camera_place_details.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/card_details_place_details.dart';
@@ -14,9 +19,12 @@ import 'package:real_state/features/feature_place_details/presntation/widget/car
 import 'package:real_state/features/feature_place_details/presntation/widget/item_place_details.dart';
 import 'package:real_state/features/feature_place_details/presntation/widget/item_title_space_details.dart';
 import 'package:real_state/features/features_owner_details/presntation/view/owner_details.dart';
+import 'package:real_state/features/layout.dart';
+import 'package:real_state/features/open_contact_apps.dart';
 import 'package:real_state/features/widget/custome_btn.dart';
 import 'package:real_state/features/widget/custome_text.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:video_player/video_player.dart';
 
 class PlaceDetails extends StatefulWidget {
   const PlaceDetails({Key? key}) : super(key: key);
@@ -26,13 +34,15 @@ class PlaceDetails extends StatefulWidget {
 }
 
 class _PlaceDetailsState extends State<PlaceDetails> {
-
   PageController? controller1;
   PageController? controller2;
+  PageController? videoController;
   int selectedImage = 0;
   bool showMap = false;
   bool showDirections = false;
   bool showVideo = false;
+  bool startVideo = false;
+  int videoNumber = 1;
   bool showNearby = false;
   bool showBluePrint = false;
   bool isSelectedNearby1 = false;
@@ -42,11 +52,12 @@ class _PlaceDetailsState extends State<PlaceDetails> {
   bool isSelectedDirection = false;
   bool isSelectedDisplay = false;
   String? mapImage;
+  int currentVideoValue = 0;
 
   Color directionTextIconColor = Colors.grey.shade600;
-  Color viewMapTextIconColor = Colors.blue;
-
-
+  Color viewMapTextIconColor = kColorLightBlue;
+  Color videosIconTextColor = Colors.grey;
+  Color vedioIconColor = Colors.grey;
 
   var listImages = [
     'assets/images/place1.png',
@@ -54,6 +65,12 @@ class _PlaceDetailsState extends State<PlaceDetails> {
     'assets/images/place3.png',
     'assets/images/place4.png',
     'assets/images/place5.png'
+  ];
+
+  List<String> listVideos = [
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    'https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4',
+    'https://www.pexels.com/video/interior-design-of-a-modern-house-3773486/'
   ];
 
   var listMapImages = [
@@ -75,13 +92,16 @@ class _PlaceDetailsState extends State<PlaceDetails> {
   ];
 
   var listHomeDetails = [
-    '2 Bath', '3 Beds', '4 Rooms',
-    '2 Bath', '3 Beds', '4 Roomshgkhghjmgh',
-    '2 Bath', '3 Beds', '4 Roomsgjfgfhg'
+    '2 Bath',
+    '3 Beds',
+    '4 Rooms',
+    '2 Bath',
+    '3 Beds',
+    '4 Roomshgkhghjmgh',
+    '2 Bath',
+    '3 Beds',
+    '4 Roomsgjfgfhg'
   ];
-
-
-
 
   @override
   void initState() {
@@ -89,6 +109,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
     super.initState();
     controller1 = PageController();
     controller2 = PageController();
+    videoController = PageController();
   }
 
   @override
@@ -97,20 +118,20 @@ class _PlaceDetailsState extends State<PlaceDetails> {
       context,
       designSize: Size(SCREEN_WIDTH, SCREEN_HIGHT),
     );
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {
-            setState(() {
-              showMap = false;
-              showVideo = false;
-              showNearby = false;
-              showBluePrint = false;
-              isSelectedDisplay =false;
-            });
-          },
+    return BackScreenLayout(
+      context,
+      ScreenWidget: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          setState(() {
+            showMap = false;
+            showNearby = false;
+            showBluePrint = false;
+            isSelectedDisplay = false;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(top :20),
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -118,49 +139,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                 children: [
                   Column(
                     children: [
-                      Padding(
-                        padding:
-                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 5.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                height: 50.h,
-                                alignment: Alignment.topCenter,
-                                child: Image.asset(
-                                  'assets/images/back.png',
-                                  width: 30.w,
-                                  height: 30.h,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 15.w),
-                            Image.asset(
-                              'assets/images/notifcation.png',
-                              width: 30.w,
-                              height: 30.h,
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              'assets/images/logoApp.png',
-                              width: 80.w,
-                              height: 80.h,
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              'assets/images/menu.png',
-                              width: 30.w,
-                              height: 30.h,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 25.h),
                       Card(
                         elevation: 5,
                         clipBehavior: Clip.antiAlias,
@@ -184,50 +163,108 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                       },
                                       itemBuilder: (context, index) {
                                         String listImage =
-                                        listImages.elementAt(index);
-                                        return Image.asset(
-                                          listImage,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          fit: BoxFit.cover,
-                                          isAntiAlias: true,
+                                            listImages.elementAt(index);
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        FullImageScreen(
+                                                            image: listImage)));
+                                          },
+                                          child: Image.asset(
+                                            listImage,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            fit: BoxFit.cover,
+                                            isAntiAlias: true,
+                                          ),
                                         );
                                       }),
-                                  Row(
-                                    children: [
-                                      SizedBox(width: 5.w),
-                                      Column(
-                                        children: [
-                                          SizedBox(height: 15.h),
-                                          CardCameraPlaceDetails(
-                                              image: 'assets/images/camera.png',
-                                              title: '8'),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                showVideo = true;
-                                              });
-                                              // Navigator.push(context, MaterialPageRoute(builder:
-                                              //     (context) => VideoPlayerScreen()));
-                                            },
-                                            child: CardCameraPlaceDetails(
-                                                image: 'assets/images/video.png',
-                                                title: '3'
+                                  /*Row(
+                                      children: [
+                                        SizedBox(width: 5.w),
+                                        Column(
+                                          children: [
+                                            SizedBox(height: 15.h),
+
+                                  GestureDetector(
+                                              onTap: () {
+                                                if(showPropertyImages){
+                                                  setState(() {
+                                                    showVideo = false;
+                                                    startVideo = false;
+                                                  });
+                                                }else{
+                                                  setState(() {
+                                                    showVideo = true;
+                                                    startVideo = true;
+                                                  });
+                                                }
+                                              },
+                                              child: CardCameraPlaceDetails(
+                                                  image: 'assets/images/camera.png',
+                                                  title: '8'),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                  GestureDetector(
+                                              onTap: () {
+                                                if(showVideo){
+                                                  setState(() {
+                                                    showVideo = false;
+                                                    startVideo = false;
+                                                  });
+                                                }else{
+                                                  setState(() {
+                                                    showVideo = true;
+                                                    startVideo = true;
+                                                  });
+                                                }
+                                              },
+                                              child: CardCameraPlaceDetails(
+                                                  image: 'assets/images/video.png',
+                                                  title: '3'
+                                              ),
+                                            ),
+
+                                          ],
+                                        ),
+                                      ],
+                                    ),*/
                                   Column(
                                     children: [
                                       SizedBox(height: 8.h),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                videosIconTextColor == Colors.grey
+                                                    ? videosIconTextColor =
+                                                        kColorLightBlue
+                                                    : videosIconTextColor =
+                                                        Colors.grey;
+                                                if (showVideo) {
+                                                  showVideo = false;
+                                                  startVideo = false;
+                                                } else {
+                                                  showVideo = true;
+                                                  startVideo = true;
+                                                }
+                                              });
+                                            },
+                                            child: CardCameraPlaceDetails(
+                                              image: 'assets/images/video.png',
+                                              title: '',
+                                              space: 1.0,
+                                              color: videosIconTextColor,
+                                            ),
+                                          ),
                                           CardMoreDetailsPlaceDetails(
-                                              image: 'assets/images/call.png'),
+                                              image: 'assets/images/call.png',
+                                              pressCard: () =>
+                                                  makePhoneCall('0595395820')),
                                           CardMoreDetailsPlaceDetails(
                                             image: 'assets/images/chat.png',
                                             pressCard: () {
@@ -235,12 +272,12 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          ChatScreen()));
+                                                          const ChatScreen()));
                                             },
                                           ),
                                           CardMoreDetailsPlaceDetails(
                                               image:
-                                              'assets/images/favorite.png'),
+                                                  'assets/images/favorite.png'),
                                           CardMoreDetailsPlaceDetails(
                                               image: 'assets/images/share.png'),
                                           SizedBox(width: 5.w),
@@ -253,19 +290,17 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                     right: 0,
                                     left: 0,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Card(
                                           color: Colors.white.withOpacity(0.4),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(30.r),
+                                                BorderRadius.circular(30.r),
                                           ),
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 10.w,
-                                                vertical: 10.h),
+                                                horizontal: 10.w, vertical: 10.h),
                                             child: SmoothPageIndicator(
                                                 controller: controller1!,
                                                 // PageController
@@ -273,8 +308,8 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                                 effect: WormEffect(
                                                     dotWidth: 10.0.w,
                                                     dotHeight: 10.0.w,
-                                                    activeDotColor: Colors
-                                                        .blue),
+                                                    activeDotColor:
+                                                        kColorLightBlue),
                                                 // your preferred effect
                                                 onDotClicked:
                                                     (_currentLocation) {}),
@@ -295,51 +330,23 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                             ),
                             SizedBox(height: 10.h),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(width: 15.w),
+                                // SizedBox(width: 15.w),
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       isSelectedMap = true;
                                       isSelectedDirection = false;
-                                      viewMapTextIconColor = Colors.blue;
+                                      viewMapTextIconColor = kColorLightBlue;
                                       directionTextIconColor =
                                           Colors.grey.shade600;
                                     });
                                   },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      boxShadow: const[
-                                        BoxShadow(
-                                            blurRadius: 0.3,
-                                            spreadRadius: 0.0,
-                                            offset: Offset(0.5, 0.5)
-                                        ),
-                                      ]
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        children: [
-                                          Image.asset(
-                                            'assets/images/location.png',
-                                            width: 24.w,
-                                            height: 24.h,
-                                            color: viewMapTextIconColor,
-                                          ),
-                                          SizedBox(width: 6.w),
-                                          CustomeText(
-                                            title: 'View Map',
-                                            color: viewMapTextIconColor,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14.sp,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                  child: CardDetails(
+                                      image: 'assets/images/location.png',
+                                      title: 'View Maps',
+                                      color: viewMapTextIconColor),
                                 ),
                                 SizedBox(width: 50.w),
                                 GestureDetector(
@@ -347,46 +354,15 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                     setState(() {
                                       isSelectedDirection = true;
                                       isSelectedMap = false;
-                                      directionTextIconColor = Colors.blue;
-                                      viewMapTextIconColor =
-                                          Colors.grey.shade600;
+                                      directionTextIconColor = kColorLightBlue;
+                                      viewMapTextIconColor = Colors.grey.shade600;
                                       showDirections = true;
                                     });
                                   },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        boxShadow: const[
-                                          BoxShadow(
-                                              blurRadius: 0.3,
-                                              spreadRadius: 0.0,
-                                              offset: Offset(0.5, 0.5)
-                                          ),
-                                        ]
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.car_repair,
-                                            color: directionTextIconColor,),
-                                          /* Image.asset(
-                                            'assets/images/location.png',
-                                            width: 30.w,
-                                            height: 30.h,
-                                          ),*/
-                                          SizedBox(width: 6.w),
-                                          CustomeText(
-                                            title: 'Directions',
-                                            color: directionTextIconColor,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14.sp,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                  child: CardDetails(
+                                      image: 'assets/images/location.png',
+                                      title: 'Directions',
+                                      color: directionTextIconColor),
                                 ),
                               ],
                             ),
@@ -395,309 +371,334 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                               height: 250.h,
                               child: Stack(
                                 children: [
-                                  /*Image.asset(
-                                    'assets/images/map.jpeg',
-                                    width: double.infinity,
-                                    height: 250.h,
-                                    fit: BoxFit.cover,
-                                  ),*/
                                   isSelectedMap
                                       ? Stack(
-                                    children: [
-                                      PageView.builder(
-                                          controller: controller2,
-                                          itemCount: listMapImages.length,
-                                          clipBehavior: Clip.antiAlias,
-                                          onPageChanged: (index) {
-                                            setState(() {
-                                              selectedImage = index;
-                                            });
-                                          },
-                                          itemBuilder: (context, index) {
-                                            String listImage =
-                                            listMapImages.elementAt(index);
-                                            return Image.asset(
-                                              listImage,
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.cover,
-                                              isAntiAlias: true,
-                                            );
-                                          }),
-                                      Positioned(
-                                        bottom: 5.h,
-                                        right: 0,
-                                        left: 0,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .center,
                                           children: [
-                                            Card(
-                                              color: Colors.white.withOpacity(
-                                                  0.4),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.circular(30.r),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10.w,
-                                                    vertical: 10.h),
-                                                child: SmoothPageIndicator(
-                                                    controller: controller2!,
-                                                    // PageController
-                                                    count: listMapImages.length,
-                                                    effect: WormEffect(
-                                                        dotWidth: 10.0.w,
-                                                        dotHeight: 10.0.w,
-                                                        activeDotColor: Colors
-                                                            .blue),
-                                                    // your preferred effect
-                                                    onDotClicked:
-                                                        (_currentLocation) {}),
+                                            PageView.builder(
+                                                controller: controller2,
+                                                itemCount: listMapImages.length,
+                                                clipBehavior: Clip.antiAlias,
+                                                onPageChanged: (index) {
+                                                  setState(() {
+                                                    selectedImage = index;
+                                                  });
+                                                },
+                                                itemBuilder: (context, index) {
+                                                  String listImage = listMapImages
+                                                      .elementAt(index);
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (_) =>
+                                                                  FullImageScreen(
+                                                                      image:
+                                                                          listImage)));
+                                                    },
+                                                    child: Image.asset(
+                                                      listImage,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                      isAntiAlias: true,
+                                                    ),
+                                                  );
+                                                }),
+                                            Positioned(
+                                              bottom: 5.h,
+                                              right: 0,
+                                              left: 0,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Card(
+                                                    color: Colors.white
+                                                        .withOpacity(0.4),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30.r),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 10.w,
+                                                              vertical: 10.h),
+                                                      child: SmoothPageIndicator(
+                                                          controller:
+                                                              controller2!,
+                                                          // PageController
+                                                          count: listMapImages
+                                                              .length,
+                                                          effect: WormEffect(
+                                                              dotWidth: 10.0.w,
+                                                              dotHeight: 10.0.w,
+                                                              activeDotColor:
+                                                                  kColorLightBlue),
+                                                          // your preferred effect
+                                                          onDotClicked:
+                                                              (_currentLocation) {}),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                      :const MapScreen(),
+                                        )
+                                      : const MapScreen(),
                                   isSelectedMap
                                       ? Positioned(
-                                    right: 5.w,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .end,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (showNearby == false) {
-                                                showNearby = true;
-                                              } else {
-                                                showNearby = false;
-                                                isSelectedNearby1 = false;
-                                                isSelectedNearby2 = false;
-                                                isSelectedNearby3 = false;
-                                              }
-                                            });
-                                          },
-                                          child: Card(
-                                            color: Colors.white,
-                                            elevation: 12,
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 2.h,
-                                                  horizontal: 5.w),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/images/arrowDown.png',
-                                                    width: 10.w,
-                                                    height: 10.h,
-                                                  ),
-                                                  SizedBox(width: 3.w),
-                                                  Image.asset(
-                                                    'assets/images/show_home.png',
-                                                    //eye icon
-                                                    width: 25.w,
-                                                    height: 25.h,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        showNearby
-                                            ? Card(
-                                          color: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(5.r),
-                                          ),
+                                          right: 5.w,
                                           child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
                                             children: [
-                                              SizedBox(height: 10.h),
-                                              CustomeText(
-                                                title: 'NEARBY',
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.grey.shade700,
-                                              ),
-                                              SizedBox(height: 10.h),
-                                              Row(
-                                                mainAxisSize:
-                                                MainAxisSize.min,
-                                                children: [
-                                                  SizedBox(width: 5.w),
-                                                  CardTypeNearby(
-                                                    title: 'HOSPITAL',
-                                                    image:
-                                                    'assets/images/hospital.png',
-                                                    color: isSelectedNearby1
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    textColor:
-                                                    isSelectedNearby1
-                                                        ? Colors.white
-                                                        : Colors.black
-                                                        .withOpacity(
-                                                        0.5),
-                                                    pressCard: () {
-                                                      setState(() {
-                                                        if (isSelectedNearby1 ==
-                                                            false) {
-                                                          isSelectedNearby1 =
-                                                          true;
-                                                          isSelectedNearby2 =
-                                                          false;
-                                                          isSelectedNearby3 =
-                                                          false;
-                                                        } else {
-                                                          isSelectedNearby1 =
-                                                          false;
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                  CardTypeNearby(
-                                                    title: 'SCHOOL',
-                                                    image:
-                                                    'assets/images/school.png',
-                                                    color: isSelectedNearby2
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    textColor:
-                                                    isSelectedNearby2
-                                                        ? Colors.white
-                                                        : Colors.black
-                                                        .withOpacity(
-                                                        0.5),
-                                                    pressCard: () {
-                                                      setState(() {
-                                                        if (isSelectedNearby2 ==
-                                                            false) {
-                                                          isSelectedNearby1 =
-                                                          false;
-                                                          isSelectedNearby2 =
-                                                          true;
-                                                          isSelectedNearby3 =
-                                                          false;
-                                                        } else {
-                                                          isSelectedNearby2 =
-                                                          false;
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                  CardTypeNearby(
-                                                    title: 'MALL',
-                                                    image:
-                                                    'assets/images/mall.png',
-                                                    color: isSelectedNearby3
-                                                        ? Colors.blue
-                                                        : Colors.white,
-                                                    textColor:
-                                                    isSelectedNearby3
-                                                        ? Colors.white
-                                                        : Colors.black
-                                                        .withOpacity(
-                                                        0.5),
-                                                    pressCard: () {
-                                                      setState(() {
-                                                        if (isSelectedNearby3 ==
-                                                            false) {
-                                                          isSelectedNearby1 =
-                                                          false;
-                                                          isSelectedNearby2 =
-                                                          false;
-                                                          isSelectedNearby3 =
-                                                          true;
-                                                        } else {
-                                                          isSelectedNearby3 =
-                                                          false;
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                  SizedBox(width: 5.w),
-                                                ],
-                                              ),
-                                              SizedBox(height: 5.h),
-                                              Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: 80.w,
-                                                    child: CustomeBtn(
-                                                      title: 'DISPLAY',
-                                                      btnColor: isSelectedDisplay
-                                                          ? Colors.grey.shade600
-                                                          : Colors.blue,
-                                                      fontSize: 12,
-                                                      widthBtn: 45,
-                                                      heightBtn: 30,
-                                                      pressBtn: () {
-                                                        setState(() {
-                                                          isSelectedDisplay = true;
-                                                          if (isSelectedNearby1) {
-                                                            mapImage =
-                                                                listMapImages
-                                                                    .elementAt(0);
-                                                            showMap = true;
-                                                          } else
-                                                          if (isSelectedNearby2) {
-                                                            mapImage =
-                                                                listMapImages
-                                                                    .elementAt(1);
-                                                            showMap = true;
-                                                          } else
-                                                          if (isSelectedNearby3) {
-                                                            mapImage =
-                                                                listMapImages
-                                                                    .elementAt(2);
-                                                            showMap = true;
-                                                          } else {
-                                                            showMap = false;
-                                                          }
-                                                        });
-                                                      },
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (showNearby == false) {
+                                                      showNearby = true;
+                                                    } else {
+                                                      showNearby = false;
+                                                      isSelectedNearby1 = false;
+                                                      isSelectedNearby2 = false;
+                                                      isSelectedNearby3 = false;
+                                                    }
+                                                  });
+                                                },
+                                                child: Card(
+                                                  color: Colors.white,
+                                                  elevation: 12,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 2.h,
+                                                        horizontal: 5.w),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/arrowDown.png',
+                                                          width: 10.w,
+                                                          height: 10.h,
+                                                        ),
+                                                        SizedBox(width: 3.w),
+                                                        Image.asset(
+                                                          'assets/images/show_home.png',
+                                                          //eye icon
+                                                          width: 25.w,
+                                                          height: 25.h,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                  SizedBox(width: 15.w),
-                                                  SizedBox(
-                                                    width: 80.w,
-                                                    child: CustomeBtn(
-                                                      title: 'CANCEL',
-                                                      btnColor: Colors.grey,
-                                                      fontSize: 12,
-                                                      widthBtn: 45,
-                                                      heightBtn: 30,
-                                                      pressBtn: () {
-                                                        setState(() {
-                                                          showNearby = false;
-                                                          isSelectedNearby1 =
-                                                          false;
-                                                          isSelectedNearby2 =
-                                                          false;
-                                                          isSelectedNearby3 =
-                                                          false;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
+                                              showNearby
+                                                  ? Card(
+                                                      color: Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                5.r),
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(height: 10.h),
+                                                          CustomeText(
+                                                            title: 'NEARBY',
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Colors
+                                                                .grey.shade700,
+                                                          ),
+                                                          SizedBox(height: 10.h),
+                                                          Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize.min,
+                                                            children: [
+                                                              SizedBox(
+                                                                  width: 5.w),
+                                                              CardTypeNearby(
+                                                                title: 'HOSPITAL',
+                                                                image:
+                                                                    'assets/images/hospital.png',
+                                                                color: isSelectedNearby1
+                                                                    ? kColorLightBlue
+                                                                    : Colors
+                                                                        .white,
+                                                                textColor: isSelectedNearby1
+                                                                    ? Colors.white
+                                                                    : Colors.black
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                                pressCard: () {
+                                                                  setState(() {
+                                                                    if (isSelectedNearby1 ==
+                                                                        false) {
+                                                                      isSelectedNearby1 =
+                                                                          true;
+                                                                      isSelectedNearby2 =
+                                                                          false;
+                                                                      isSelectedNearby3 =
+                                                                          false;
+                                                                    } else {
+                                                                      isSelectedNearby1 =
+                                                                          false;
+                                                                    }
+                                                                  });
+                                                                },
+                                                              ),
+                                                              CardTypeNearby(
+                                                                title: 'SCHOOL',
+                                                                image:
+                                                                    'assets/images/school.png',
+                                                                color: isSelectedNearby2
+                                                                    ? kColorLightBlue
+                                                                    : Colors
+                                                                        .white,
+                                                                textColor: isSelectedNearby2
+                                                                    ? Colors.white
+                                                                    : Colors.black
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                                pressCard: () {
+                                                                  setState(() {
+                                                                    if (isSelectedNearby2 ==
+                                                                        false) {
+                                                                      isSelectedNearby1 =
+                                                                          false;
+                                                                      isSelectedNearby2 =
+                                                                          true;
+                                                                      isSelectedNearby3 =
+                                                                          false;
+                                                                    } else {
+                                                                      isSelectedNearby2 =
+                                                                          false;
+                                                                    }
+                                                                  });
+                                                                },
+                                                              ),
+                                                              CardTypeNearby(
+                                                                title: 'MALL',
+                                                                image:
+                                                                    'assets/images/mall.png',
+                                                                color: isSelectedNearby3
+                                                                    ? kColorLightBlue
+                                                                    : Colors
+                                                                        .white,
+                                                                textColor: isSelectedNearby3
+                                                                    ? Colors.white
+                                                                    : Colors.black
+                                                                        .withOpacity(
+                                                                            0.5),
+                                                                pressCard: () {
+                                                                  setState(() {
+                                                                    if (isSelectedNearby3 ==
+                                                                        false) {
+                                                                      isSelectedNearby1 =
+                                                                          false;
+                                                                      isSelectedNearby2 =
+                                                                          false;
+                                                                      isSelectedNearby3 =
+                                                                          true;
+                                                                    } else {
+                                                                      isSelectedNearby3 =
+                                                                          false;
+                                                                    }
+                                                                  });
+                                                                },
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 5.w),
+                                                            ],
+                                                          ),
+                                                          SizedBox(height: 5.h),
+                                                          Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 80.w,
+                                                                child: CustomeBtn(
+                                                                  title:
+                                                                      'DISPLAY',
+                                                                  btnColor: isSelectedDisplay
+                                                                      ? Colors
+                                                                          .grey
+                                                                          .shade600
+                                                                      : kColorLightBlue,
+                                                                  fontSize: 12,
+                                                                  widthBtn: 45,
+                                                                  heightBtn: 30,
+                                                                  pressBtn: () {
+                                                                    setState(() {
+                                                                      isSelectedDisplay =
+                                                                          true;
+                                                                      if (isSelectedNearby1) {
+                                                                        mapImage =
+                                                                            listMapImages
+                                                                                .elementAt(0);
+                                                                        showMap =
+                                                                            true;
+                                                                      } else if (isSelectedNearby2) {
+                                                                        mapImage =
+                                                                            listMapImages
+                                                                                .elementAt(1);
+                                                                        showMap =
+                                                                            true;
+                                                                      } else if (isSelectedNearby3) {
+                                                                        mapImage =
+                                                                            listMapImages
+                                                                                .elementAt(2);
+                                                                        showMap =
+                                                                            true;
+                                                                      } else {
+                                                                        showMap =
+                                                                            false;
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                  width: 15.w),
+                                                              SizedBox(
+                                                                width: 80.w,
+                                                                child: CustomeBtn(
+                                                                  title: 'CANCEL',
+                                                                  btnColor:
+                                                                      Colors.grey,
+                                                                  fontSize: 12,
+                                                                  widthBtn: 45,
+                                                                  heightBtn: 30,
+                                                                  pressBtn: () {
+                                                                    setState(() {
+                                                                      showNearby =
+                                                                          false;
+                                                                      isSelectedNearby1 =
+                                                                          false;
+                                                                      isSelectedNearby2 =
+                                                                          false;
+                                                                      isSelectedNearby3 =
+                                                                          false;
+                                                                    });
+                                                                  },
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : SizedBox(),
                                             ],
                                           ),
                                         )
-                                            : SizedBox(),
-                                      ],
-                                    ),
-                                  )
-                                      : SizedBox(),
+                                      : const SizedBox(),
                                 ],
                               ),
                             ),
@@ -710,7 +711,8 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => OwnerDetails()));
+                                        builder: (context) =>
+                                            const OwnerDetails()));
                               },
                             ),
                             Column(
@@ -770,7 +772,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: CustomeText(
                                 title:
-                                'Lorem Ipsum is simply dummy text of the printing'
+                                    'Lorem Ipsum is simply dummy text of the printing'
                                     ' and typesetting industry. Lorem Ipsum has been'
                                     ' the industry\'s standard dummy text ever since'
                                     ' the 1500s,',
@@ -798,11 +800,12 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: listHomeDetails.length,
-                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,
-                                    crossAxisSpacing: 4.0,
-                                    mainAxisSpacing: 4.0,
-                                    childAspectRatio: 1 / 0.8,
+                                    crossAxisSpacing: 2.0,
+                                    mainAxisSpacing: 2.0,
+                                    childAspectRatio: 1 / 0.5,
                                   ),
                                   itemBuilder: (context, index) =>
                                       CardDetailsPlaceDetails(
@@ -820,9 +823,13 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                 SizedBox(
                                   width: 190.w,
                                   child: CustomeBtn(
-                                    pressBtn: () {},
+                                    pressBtn: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (_) =>
+                                              const PropertyLeaseContractScreen()));
+                                    },
                                     title: 'Property Lease Contract',
-                                    btnColor: Color(0xff6EB3D0),
+                                    btnColor: kColorLightBlue,
                                     heightBtn: 35.h,
                                     widthBtn: 60.w,
                                     fontSize: 16.sp,
@@ -838,47 +845,135 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   ),
                   showBluePrint
                       ? Positioned(
-                      top: 1020.h, right: 15.w, child: cardBluePrint())
-                      : SizedBox(),
-                  showVideo
+                          top: 1020.h, right: 15.w, child: cardBluePrint())
+                      : const SizedBox(),
+                  startVideo
                       ? Positioned(
-                      top: 230.h, right: 1.w, left: 1.w,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          top: 140.h,
+                          right: 1.w,
+                          left: 1.w,
+                          child:
+                              /*Column(
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    SizedBox();
-                                  },
-                                  child: CardCameraPlaceDetails(
-                                      image: 'assets/images/video.png',
-                                      title: '1#'
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            if(startVideo){
+                                              startVideo == false;
+                                            }else{ startVideo == true;}
+                                          });
+                                        },
+                                        child: CardCameraPlaceDetails(
+                                          image: 'assets/images/video.png',
+                                          title: '1#',
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      CardCameraPlaceDetails(
+                                        image: 'assets/images/video.png',
+                                        title: '2#',
+                                        color: Colors.grey,
+                                      ),
+                                      CardCameraPlaceDetails(
+                                        image: 'assets/images/video.png',
+                                        title: '3#',
+                                        color: Colors.grey,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                CardCameraPlaceDetails(
-                                    image: 'assets/images/video.png',
-                                    title: '2#'
-                                ),
-                                CardCameraPlaceDetails(
-                                    image: 'assets/images/video.png',
-                                    title: '3#'
-                                ),
+                                SizedBox(),
                               ],
-                            ),
+                            )*/
+                              Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: 200,
+                                      width: 350,
+                                      child: PageView.builder(
+                                        physics: const ClampingScrollPhysics(),
+                                        itemCount: listVideos.length,
+                                        onPageChanged: (int video) {
+                                          getChangedPageAndMoveBar(video);
+                                        },
+                                        controller: videoController,
+                                        itemBuilder: (context, index) {
+                                          return VideoPlayerScreen(
+                                              videoIndex: index);
+                                        },
+                                      ),
+                                      /*ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: listVideos.length,
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  videoNumber = index;
+                                                startVideo == true
+                                                      ? startVideo == false
+                                                      : startVideo == true;
+
+                                                  startVideo = true;
+                                                  print('index=====>$index');
+                                                  vedioIconColor == Colors.grey
+                                                      ? vedioIconColor =
+                                                          kColorLightBlue
+                                                      : vedioIconColor =
+                                                          Colors.grey;
+                                                });
+                                              },
+                                              child: CardCameraPlaceDetails(
+                                                image: 'assets/images/video.png',
+                                                title: '${index + 1}#',
+                                                color: vedioIconColor,
+                                              ),
+                                            );
+                                          }),*/
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(),
+                            ],
+                          ))
+                      : const SizedBox(),
+                  showVideo
+                      ? Positioned(
+                          top: 100.h,
+                          right: 1.w,
+                          left: 1.w,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              for (int i = 0; i < listVideos.length; i++)
+                                if (i == currentVideoValue) ...[
+                                  cardVideo(true, i)
+                                ] else
+                                  cardVideo(false, i),
+                            ],
                           ),
-                          SizedBox(),
-                        ],
-                      )
-                  )
-                      : SizedBox(),
+                        )
+                      : const SizedBox(),
                   showMap
                       ? Positioned(
-                      top: 500.h, right: 1.w, left: 1.w, child: cardMapImage())
-                      : SizedBox(),
+                          top: 200.h,
+                          right: 1.w,
+                          left: 1.w,
+                          child: cardMapImage())
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -894,7 +989,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
       child: Card(
         elevation: 5,
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.w)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.w)),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
           child: Column(
@@ -918,7 +1013,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   showDialog(
                     context: context,
                     builder: (context) =>
-                    new AlertDialogDetailsFun(indexImage: 0),
+                        new AlertDialogDetailsFun(indexImage: 0),
                   );
                 },
               ),
@@ -928,7 +1023,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   showDialog(
                     context: context,
                     builder: (context) =>
-                    new AlertDialogDetailsFun(indexImage: 1),
+                        new AlertDialogDetailsFun(indexImage: 1),
                   );
                 },
               ),
@@ -938,7 +1033,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                   showDialog(
                     context: context,
                     builder: (context) =>
-                    new AlertDialogDetailsFun(indexImage: 2),
+                        new AlertDialogDetailsFun(indexImage: 2),
                   );
                 },
               ),
@@ -965,13 +1060,39 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                 },
                 child: Image.asset(
                   mapImage!,
-                )
-            ),
+                )),
           ],
         ),
       ),
     );
   }
 
+  Widget cardVideo(bool isActive, int i) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      child: GestureDetector(
+        onTap: () => videoController?.jumpToPage(i),
+        child: CardCameraPlaceDetails(
+          image: 'assets/images/video.png',
+          title: '${i + 1}',
+          color: isActive ? kColorLightBlue : kBorderColorGray,
+        ),
+      ),
+    );
+  }
 
+  void getChangedPageAndMoveBar(int page) {
+    currentVideoValue = page;
+    setState(() {});
+  }
+
+  void gotoSelectedPage(int index) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPlayerScreen(videoIndex: index,),
+      ),
+    );
+  }
 }

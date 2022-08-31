@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CardOwnerDetails extends StatelessWidget {
   String image;
-  GestureTapCallback? pressCard;
+  VoidCallback? pressCard;
 
   CardOwnerDetails({
     required this.image,

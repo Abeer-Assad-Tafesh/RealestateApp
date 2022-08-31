@@ -23,16 +23,20 @@ class CardDetailsPlaceDetails extends StatelessWidget {
         child: Row(
           children: [
             Image.asset(image,width: 20.w,height: 20.h,),
-            SizedBox(width: 7.w),
+            SizedBox(width: 5.w),
             SizedBox(
-              width: 50,
-              child: CustomeText(
-                title: title,
-                color: Colors.black.withOpacity(0.4),
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-                maxLines: 1,
-                overflow: 1,
+              width: 70.w,
+              child: Tooltip(
+                message: title,
+                triggerMode: TooltipTriggerMode.tap,
+                child: CustomeText(
+                  title: title,
+                  color: Colors.black.withOpacity(0.4),
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w500,
+                  maxLines: 1,
+                  overflow: 1,
+                ),
               ),
             ),
           ],

@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_state/core/app_colors.dart';
-
 import '../../core/app_font.dart';
 import '../../core/app_size.dart';
+
 Widget defaultTextForm({
   required TextEditingController textEditingController,
   required TextInputType textInputType,
@@ -41,7 +41,7 @@ IconData? iconData,
       enabled:isenable,
 
     obscureText: isPassword,
-      cursorColor: kColorButtom,
+      cursorColor: kColorButton,
       decoration: InputDecoration(
 
         prefixIcon:Icon(iconData,color: kUnSelectTabColor,) ,

@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:real_state/core/app_size.dart';
 import 'package:real_state/features/feature_home/presntation/view/home_screen.dart';
 import 'package:real_state/features/feature_owner/presntation/view/owner_screen.dart';
-import 'package:real_state/features/feature_register/presntation/view/register.dart';
+import 'package:real_state/features/feature_register/presntation/view/owner_register.dart';
 import 'package:real_state/features/feature_search_property/presntation/widget/card_search_proprety.dart';
 import 'package:real_state/features/widget/custom_textfilled_app.dart';
 import 'package:real_state/features/widget/custom_textfilled_password.dart';
@@ -48,14 +48,15 @@ class _SearchPropertyState extends State<SearchProperty> {
   }
 
   void goToSignUp() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const OwnerRegisterScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
       context,
-      designSize: Size(SCREEN_WIDTH, SCREEN_HIGHT),
+      designSize: const Size(SCREEN_WIDTH, SCREEN_HIGHT),
     );
     return Scaffold(
       backgroundColor: Colors.white,
@@ -65,7 +66,7 @@ class _SearchPropertyState extends State<SearchProperty> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 80.h),
               Image.asset(
@@ -74,7 +75,6 @@ class _SearchPropertyState extends State<SearchProperty> {
                 height: 270.h,
               ),
               SizedBox(height: 5.h),
-
               CustomeText(
                 title: 'PROFESSIONAL COMPANY',
                 textAlign: TextAlign.center,
@@ -82,7 +82,7 @@ class _SearchPropertyState extends State<SearchProperty> {
                 fontHeight: 1.h,
                 color: Colors.grey,
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 450.h,
                 width: double.infinity,
@@ -98,12 +98,12 @@ class _SearchPropertyState extends State<SearchProperty> {
                       color: Colors.grey.withOpacity(0.1),
                       spreadRadius: 5,
                       blurRadius: 0.9,
-                      offset: Offset(0, 0), // changes position of shadow
+                      offset: const Offset(0, 0), // changes position of shadow
                     ),
                   ],
                 ),
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -135,7 +135,9 @@ class _SearchPropertyState extends State<SearchProperty> {
                             title: 'Buy',
                             widthImage: 30.w,
                             heightImage: 30.h,
-                            color: isSelected1 ? Color(0xff6EB3D0) : Colors.white,
+                            color: isSelected1
+                                ? const Color(0xff6EB3D0)
+                                : Colors.white,
                             textColor: isSelected1 ? Colors.white : Colors.grey,
                             pressCard: () {
                               setState(() {
@@ -150,13 +152,15 @@ class _SearchPropertyState extends State<SearchProperty> {
                             },
                           ),
                           // SizedBox(width: 15.w),
-                          Spacer(),
+                          const Spacer(),
                           CardSearchProperty(
                             image: 'assets/images/rent2.png',
                             title: 'Rent',
                             widthImage: 35.w,
                             heightImage: 35.h,
-                            color: isSelected2 ? Color(0xff6EB3D0) : Colors.white,
+                            color: isSelected2
+                                ? const Color(0xff6EB3D0)
+                                : Colors.white,
                             textColor: isSelected2 ? Colors.white : Colors.grey,
                             pressCard: () {
                               setState(() {
@@ -170,13 +174,15 @@ class _SearchPropertyState extends State<SearchProperty> {
                               });
                             },
                           ),
-                          Spacer(),
+                          const Spacer(),
                           CardSearchProperty(
                             image: 'assets/images/sell.png',
                             title: 'Sell',
                             widthImage: 30.w,
                             heightImage: 30.h,
-                            color: isSelected3 ? Color(0xff6EB3D0) : Colors.white,
+                            color: isSelected3
+                                ? const Color(0xff6EB3D0)
+                                : Colors.white,
                             textColor: isSelected3 ? Colors.white : Colors.grey,
                             pressCard: () {
                               setState(() {
@@ -192,7 +198,8 @@ class _SearchPropertyState extends State<SearchProperty> {
                           ),
                         ],
                       ),
-                      SizedBox(height: isSelected1 || isSelected2 ?30.h:20.h),
+                      SizedBox(
+                          height: isSelected1 || isSelected2 ? 30.h : 20.h),
                       isSelected1 || isSelected2
                           ? Row(
                               children: [
@@ -205,10 +212,10 @@ class _SearchPropertyState extends State<SearchProperty> {
                                 ),
                               ],
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       isSelected1 || isSelected2
                           ? SizedBox(height: 20.h)
-                          : SizedBox(),
+                          : const SizedBox(),
                       isSelected1 || isSelected2
                           ? TextFiledSearch(
                               searchQuery: searchQuery!,
@@ -218,14 +225,14 @@ class _SearchPropertyState extends State<SearchProperty> {
                                 });
                               },
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       isSelected1 || isSelected2
                           ? SizedBox(height: 40.h)
-                          : SizedBox(),
+                          : const SizedBox(),
                       isSelected1 || isSelected2
                           ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  primary: Color(0xff6EB3D0),
+                                  primary: const Color(0xff6EB3D0),
                                   minimumSize: Size(double.infinity, 60.h),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.w),
@@ -235,7 +242,7 @@ class _SearchPropertyState extends State<SearchProperty> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            HomeScreen()));
+                                            const HomeScreen()));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -255,108 +262,125 @@ class _SearchPropertyState extends State<SearchProperty> {
                                 ],
                               ),
                             )
-                          : SizedBox(),
-                      isSelected1 || isSelected2 ?SizedBox(height: 30.h):SizedBox(),
-                      isSelected3 ?Row(
-                        children: [
-                          Flexible(
-                             child: CustomTextFilledApp(
-                              hintText: 'user name',
-                              suffixIcon: 'assets/images/user.png',
-                              lable: 'user name',
-                              controller: userNameController,
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Color(0xff6EB3D0),
-                                minimumSize: Size(80.w, 55.h),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.w),
-                                )),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OwnerScreen()));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                          : const SizedBox(),
+                      isSelected1 || isSelected2
+                          ? SizedBox(height: 30.h)
+                          : const SizedBox(),
+                      isSelected3
+                          ? Row(
                               children: [
-                                CustomeText(
-                                  title: 'Sign In',
-                                  fontSize: 16.sp,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
+                                Flexible(
+                                  child: CustomTextFilledApp(
+                                    hintText: 'user name',
+                                    suffixIcon: 'assets/images/user.png',
+                                    controller: userNameController,
+                                  ),
                                 ),
                                 SizedBox(width: 10.w),
-                                Image.asset(
-                                  'assets/images/signIn.png',
-                                  width: 20.w,
-                                  height: 20.h,
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: const Color(0xff6EB3D0),
+                                      minimumSize: Size(80.w, 55.h),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.w),
+                                      )),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OwnerScreen()));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomeText(
+                                        title: 'Sign In',
+                                        fontSize: 16.sp,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Image.asset(
+                                        'assets/images/signIn.png',
+                                        width: 20.w,
+                                        height: 20.h,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          : const SizedBox(),
+                      isSelected3 ? SizedBox(height: 5.h) : const SizedBox(),
+                      isSelected3
+                          ? Row(
+                              children: [
+                                Flexible(
+                                  child: CustomTextFilledPassword(
+                                    hintText: 'password',
+                                    suffixIcon: 'assets/images/lock.png',
+                                    controller: passwordController,
+                                  ),
+                                ),
+                                SizedBox(width: 12.w),
+                                SizedBox(
+                                    width: 30.w,
+                                    height: 30.h,
+                                    child: Checkbox(
+                                      value: false,
+                                      onChanged: (value) {},
+                                    )),
+                                CustomeText(
+                                  title: 'Remember Me',
+                                  fontSize: 12.sp,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ],
-                            ),
-                          )
-                        ],
-                      ):SizedBox(),
-                      isSelected3 ?SizedBox(height: 5.h):SizedBox(),
-                      isSelected3 ?Row(
-                        children: [
-                           Flexible(
-                             child: CustomTextFilledPassword(
-                              hintText: 'password',
-                              suffixIcon: 'assets/images/lock.png',
-                              lable: 'password',
-                              controller: passwordController,
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          SizedBox(width: 30.w,height: 30.h,child: Checkbox(value: false, onChanged: (value){},)),
-                          CustomeText(
-                            title: 'Remember Me',
-                            fontSize: 12.sp,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ):SizedBox(),
-                      isSelected3 ?SizedBox(height: 20.h):SizedBox(),
-                      isSelected3 ?SizedBox(
-                        width: 250.w,
-                        height: 10.h,
-                        child: TextButton(onPressed: (){}, child: CustomeText(
-                          title: 'Forgot Password?',
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade400,
-                        )),
-                      ):SizedBox(),
-                      isSelected3 ?SizedBox(height: 40.h):SizedBox(),
-                      isSelected3 ?RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          text: 'Don\'t Have Account ? ',
-                          style: TextStyle(
-                            color: Colors.grey.shade400,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          children: [
-                            TextSpan(
-                              recognizer: _tapGestureRecognizer,
-                              text: 'Sign Up',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                            )
+                          : const SizedBox(),
+                      isSelected3 ? SizedBox(height: 20.h) : const SizedBox(),
+                      isSelected3
+                          ? SizedBox(
+                              width: 250.w,
+                              height: 10.h,
+                              child: TextButton(
+                                  onPressed: () {},
+                                  child: CustomeText(
+                                    title: 'Forgot Password?',
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey.shade400,
+                                  )),
+                            )
+                          : const SizedBox(),
+                      isSelected3 ? SizedBox(height: 40.h) : SizedBox(),
+                      isSelected3
+                          ? RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                text: 'Don\'t Have Account ? ',
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    recognizer: _tapGestureRecognizer,
+                                    text: 'Sign Up',
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ):SizedBox(),
+                            )
+                          : const SizedBox(),
                       SizedBox(height: 20.h),
                     ],
                   ),

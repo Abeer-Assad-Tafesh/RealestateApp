@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:real_state/core/app_colors.dart';
 import 'package:real_state/features/widget/custome_btn.dart';
 import 'package:real_state/features/widget/custome_text.dart';
 
@@ -34,7 +35,7 @@ class ItemTitleSpaceDetails extends StatelessWidget {
           child: CustomeBtn(
             pressBtn: pressBtn,
             title: btnText!,
-            btnColor: Color(0xff6EB3D0),
+            btnColor: kColorLightBlue,
             heightBtn: 35.h,
             widthBtn: 60.w,
             fontSize: 16.sp,

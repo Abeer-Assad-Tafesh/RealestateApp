@@ -7,16 +7,14 @@ import 'package:real_state/features/feature_search_property/presntation/view/sea
 import 'package:real_state/features/features_filter/presntation/view/filter_screen.dart';
 import 'package:real_state/features/features_owner_details/presntation/view/owner_details.dart';
 
+import 'core/app_colors.dart';
+
 
 void main(){
   runApp(MainApp());
 }
 
-
-
 class MainApp extends StatefulWidget {
-
-
   @override
   State<MainApp> createState() => _MainAppState();
 }
@@ -26,6 +24,12 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: kColorLightBlue,
+            secondary: kColorLightBlue
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: SearchProperty(),
     );

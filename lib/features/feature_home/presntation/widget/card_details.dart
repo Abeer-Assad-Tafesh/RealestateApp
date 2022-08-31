@@ -5,10 +5,12 @@ import 'package:real_state/features/widget/custome_text.dart';
 class CardDetails extends StatelessWidget {
   String image;
   String title;
+  Color color;
 
   CardDetails({
     required this.image,
     required this.title,
+    required this.color
   });
 
   @override
@@ -22,11 +24,11 @@ class CardDetails extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
         child: Row(
           children: [
-            Image.asset(image,width: 20.w,height: 20.h,),
+            Image.asset(image,width: 20.w,height: 20.h,color: color,),
             SizedBox(width: 7.w),
             CustomeText(
               title: title,
-              color: Colors.black.withOpacity(0.4),
+              color:color,
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),

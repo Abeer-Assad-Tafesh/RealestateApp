@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:real_state/core/app_colors.dart';
 import 'package:real_state/features/widget/custome_text.dart';
 
 class CardLoad extends StatelessWidget {
@@ -21,7 +22,7 @@ class CardLoad extends StatelessWidget {
         onTap: pressCard,
         child: Card(
           elevation: 4,
-          color: Colors.grey,
+          color: kColorLightBlue,
           child: Center(
             child: CustomeText(
               title: title,

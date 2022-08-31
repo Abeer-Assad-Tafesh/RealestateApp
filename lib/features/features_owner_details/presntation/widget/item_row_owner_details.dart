@@ -24,7 +24,7 @@ class ItemRowOwnerDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.only(bottom: 7.h),
+      padding: EdgeInsetsDirectional.only(bottom: 20.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class ItemRowOwnerDetails extends StatelessWidget {
           ),
           SizedBox(width: 15.w),
           Container(
-            height: 30.sp,
+            height: 20.h,
             alignment: Alignment.bottomCenter,
             child: CustomeText(
               title: title,

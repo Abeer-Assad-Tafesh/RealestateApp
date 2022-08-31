@@ -14,7 +14,7 @@ class CustomeBtn extends StatelessWidget {
     required this.title,
     this.pressBtn,
     this.btnColor = Colors.black,
-    this.widthBtn = 100,
+    this.widthBtn = 0,
     this.heightBtn = 40,
     this.fontSize = 18,
   });

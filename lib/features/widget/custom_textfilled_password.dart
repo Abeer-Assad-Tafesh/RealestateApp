@@ -87,9 +87,9 @@ class _CustomTextFilledPasswordState extends State<CustomTextFilledPassword> {
             style:  TextStyle(color: Colors.black,fontSize: fontSize15.sp),
             onTap: (){
             },
-            cursorColor: kColorButtom,
+            cursorColor: kColorButton,
             decoration: InputDecoration(
-              labelText: lable!,
+              labelText: lable,
               filled: true,
               fillColor: Colors.white,
               hintStyle:  TextStyle(color: Colors.grey[300],fontSize: fontSize15.sp),
