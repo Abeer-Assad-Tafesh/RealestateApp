@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:real_state/core/app_colors.dart';
 import 'package:real_state/core/app_size.dart';
+import 'package:real_state/features/deep_link/dynamic_link_service.dart';
 import 'package:real_state/features/feature_chat/presntation/view/chat_screen.dart';
 import 'package:real_state/features/feature_home/presntation/widget/card_details.dart';
 import 'package:real_state/features/feature_owner/presntation/widget/alert_dialog_details.dart';
@@ -27,13 +31,16 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:video_player/video_player.dart';
 
 class PlaceDetails extends StatefulWidget {
-  const PlaceDetails({Key? key}) : super(key: key);
+  const PlaceDetails({Key? key, propertyId = 3,propertyType = 1}) : super(key: key);
+
 
   @override
   State<PlaceDetails> createState() => _PlaceDetailsState();
 }
 
 class _PlaceDetailsState extends State<PlaceDetails> {
+
+
   PageController? controller1;
   PageController? controller2;
   PageController? videoController;
@@ -53,11 +60,12 @@ class _PlaceDetailsState extends State<PlaceDetails> {
   bool isSelectedDisplay = false;
   String? mapImage;
   int currentVideoValue = 0;
+  String? listImage ;
 
   Color directionTextIconColor = Colors.grey.shade600;
   Color viewMapTextIconColor = kColorLightBlue;
   Color videosIconTextColor = Colors.grey;
-  Color vedioIconColor = Colors.grey;
+  Color videoIconColor = Colors.grey;
 
   var listImages = [
     'assets/images/place1.png',
@@ -162,7 +170,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                         });
                                       },
                                       itemBuilder: (context, index) {
-                                        String listImage =
+                                         listImage =
                                             listImages.elementAt(index);
                                         return GestureDetector(
                                           onTap: () {
@@ -171,10 +179,10 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                                 MaterialPageRoute(
                                                     builder: (_) =>
                                                         FullImageScreen(
-                                                            image: listImage)));
+                                                            image: listImage!)));
                                           },
                                           child: Image.asset(
-                                            listImage,
+                                            listImage!,
                                             width: double.infinity,
                                             height: double.infinity,
                                             fit: BoxFit.cover,
@@ -279,7 +287,14 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                               image:
                                                   'assets/images/favorite.png'),
                                           CardMoreDetailsPlaceDetails(
-                                              image: 'assets/images/share.png'),
+                                              image: 'assets/images/share.png',
+                                            pressCard: () async {
+                                              DynamicLinksService.createDynamicLink(0,0,image: listImage!).then((value){
+                                                //Sharing the content on other applications
+                                                DynamicLinksService.shareData(context, listImage!, value);
+                                              });
+                                            },
+                                          ),
                                           SizedBox(width: 5.w),
                                         ],
                                       ),
@@ -287,8 +302,8 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                   ),
                                   Positioned(
                                     bottom: 5.h,
-                                    right: 0,
-                                    left: 0,
+                                    right: 0.w,
+                                    left: 0.w,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
@@ -307,7 +322,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                                 count: listImages.length,
                                                 effect: WormEffect(
                                                     dotWidth: 10.0.w,
-                                                    dotHeight: 10.0.w,
+                                                    dotHeight: 10.0.h,
                                                     activeDotColor:
                                                         kColorLightBlue),
                                                 // your preferred effect
@@ -407,8 +422,8 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                                 }),
                                             Positioned(
                                               bottom: 5.h,
-                                              right: 0,
-                                              left: 0,
+                                              right: 0.w,
+                                              left: 0.w,
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -434,7 +449,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                                               .length,
                                                           effect: WormEffect(
                                                               dotWidth: 10.0.w,
-                                                              dotHeight: 10.0.w,
+                                                              dotHeight: 10.0.h,
                                                               activeDotColor:
                                                                   kColorLightBlue),
                                                           // your preferred effect

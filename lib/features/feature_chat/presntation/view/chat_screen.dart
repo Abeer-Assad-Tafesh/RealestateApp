@@ -198,6 +198,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                             GroupedListView<Message, DateTime>(
                                           padding: EdgeInsets.all(8.w),
                                           reverse: true,
+
                                           order: GroupedListOrder.DESC,
                                           useStickyGroupSeparators: true,
                                           floatingHeader: true,

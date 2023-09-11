@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class FullImageScreen extends StatelessWidget {
   String image;
-
   FullImageScreen({required this.image, Key? key}) : super(key: key);
 
   @override
